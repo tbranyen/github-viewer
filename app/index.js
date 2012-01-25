@@ -22,52 +22,88 @@ require.config({
 
     underscore: {
       attach: "_"
+    },
+    
+    "plugins/backbone.layoutmanager": {
+      deps: ["use!backbone"]
     }
   }
 });
 
 require([
   "namespace",
+
+  // Libs
   "jquery",
   "use!backbone",
-  "modules/example"
+
+  // Modules
+  "modules/repo",
+  "modules/user",
+  "modules/commit"
 ],
 
-function (namespace, jQuery, Backbone, Example) {
+function (bocoup, jQuery, Backbone, Repo, User, Commit) {
   // Treat the jQuery ready function as the entry point to the application.
   // Inside this function, kick-off all initialization, everything up to this
   // point should be definitions.
   jQuery(function($) {
 
     // Shorthand the application namespace
-    var app = namespace.app;
+    var app = bocoup.app;
 
     // Defining the application router, you can attach sub routers here.
     var Router = Backbone.Router.extend({
-      routes: {
-        "": "index",
-        ":hash": "index"
+      // Super-simple layout swapping and reusing
+      swapLayout: function(name) {
+        var currentLayout = this.currentLayout;
+
+        // If there is an existing layout and its the current one, return it.
+        if (currentLayout && options.template == name) {
+          return currentLayout;
+        }
+
+        // Create the new layout and set it as current.
+        this.currentLayout = new Backbone.LayoutManager({
+          template: name
+        });
+
+        return this.currentLayout;
       },
 
-      index: function(hash) {
-        var route = this;
-        var tutorial = new Example.Views.Tutorial();
+      routes: {
+        "": "index"
+      },
 
-        // Attach the tutorial to the DOM
-        tutorial.render(function(el) {
+      index: function() {
+        var main = this.swapLayout("main");
+
+        app.repos = new Repo.Collection([], { user: "tbranyen" });
+        app.repos.fetch();
+
+        app.users = new User.Collection([], { org: "bocoup" });
+        app.users.fetch();
+
+        app.commits = new Commit.Collection();
+
+        // Set all the views
+        main.setViews({
+          ".repos": new Repo.Views.List({
+            collection: app.repos
+          }),
+
+          ".users": new User.Views.List({
+            collection: app.users
+          }),
+
+          ".commits": new Commit.Views.List({
+            collection: app.commits
+          })
+        });
+
+        // Render to the page
+        main.render(function(el) {
           $("#main").html(el);
-
-          // Fix for hashes in pushState and hash fragment
-          if (hash && !route._alreadyTriggered) {
-            // Reset to home, pushState support automatically converts hashes
-            Backbone.history.navigate("", false);
-
-            // Trigger the default browser behavior
-            location.hash = hash;
-
-            // Set an internal flag to stop recursive looping
-            route._alreadyTriggered = true;
-          }
         });
       }
     });

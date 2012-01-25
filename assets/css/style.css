@@ -207,74 +207,86 @@ td { vertical-align: top; }
    ========================================================================== */
 
 #main {
-  margin: 40px;
   font-size: 14px;
 }
 
-#main pre {
-  min-width: 320px;
-  border-radius: 10px;
-  color: #333;
-  font-weight: normal;
-  font-size: 12px;
-  display: inline-block;
-  padding-right: 40px;
-  background: #F8FAFC;
+#main .users {
+  position: absolute;
+  top: 0px; left: 10px; right: 10px;
+  height: 50px;
 }
 
-#main a {
-  color: #00CCFF;
-}
-
-#main a:hover {
-  color: #FE57A1;
-}
-
-#main img {
-  width: 320px;
-  height: auto;
-}
-
-#main p {
-  line-height: 28px;
-}
-
-#main ul.nested {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-#main ul li {
-  line-height: 28px;
-}
-
-#main header h1 {
-  margin: 15px;
-  display: inline-block;
-  color: #333;
-}
-
-#main header h2:not(.congrats) {
-  color: #666;
+#main .users ul {
   margin: 0; padding: 0;
 }
 
-#main header .congrats {
-  padding-bottom: 0;
-  margin-bottom: 0;
-  color: #00CCFF;
-  display: inline-block;
-  font-size: 28px;
+#main .users li {
+  float: left;
+  margin: 10px;
+  list-style: none;
+
+  padding: 5px;
+
+  cursor: pointer;
+
+  border: 2px solid #F3E;
 }
 
-#main .topic {
-  color: #CCC;
+#main .repos {
+  position: absolute;
+  top: 50px; bottom: 10px; left: 10px;
+  width: 300px;
+
+  background: #CCC;
+
+  padding: 10px;
+
+  font-color: #333;
+
+  overflow-y: scroll;
 }
 
-#main .clues {
-  color: #FE57A1;
+#main .repos ul {
+  margin: 0; padding: 0;
 }
 
+#main .repos li {
+  background: #DDD;
+  display: block;
+
+  border: 2px solid #333;
+
+  padding: 5px;
+
+  margin: 5px;
+
+  cursor: pointer;
+}
+
+#main hr {
+  border-top: 1px solid #333;
+}
+
+#main .commits {
+  position: absolute;
+  top: 50px; bottom: 10px; left: 320px; right: 10px;
+
+  background: red;
+
+  padding: 10px;
+
+  font-color: #333;
+
+  overflow-y: scroll;
+}
+
+#main .commits ul {
+  margin: 0; padding: 0;
+}
+
+#main .commits li {
+  background: lightred;
+}
 
 /* ==|== media queries ======================================================
    PLACEHOLDER Media Queries for Responsive Design.

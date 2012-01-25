@@ -35,6 +35,10 @@ config.init({
     "dist/release/require.js": ["assets/js/libs/require.js"]
   },
 
+  jst: {
+    "dist/debug/templates.js": ["app/templates/**/*.html"]
+  },
+
   server: {
     debug: {
       folders: {
