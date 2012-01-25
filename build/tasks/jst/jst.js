@@ -1,16 +1,22 @@
-// ============================================================================
-// TASKS
-// ============================================================================
+/*
+ * Grunt Task File
+ * ---------------
+ *
+ * Task: JST 
+ * Description: Compile underscore templates to JST file
+ * Dependencies: None
+ *
+ */
 
 task.registerBasicTask("jst", "Compile underscore templates to JST file", function(data, name) {
   // If namespace is specified use that, otherwise fallback
-  var namespace = config("jst.namespace") || "JST";
+  var namespace = config("meta.jst.namespace") || "JST";
   // If template settings are available use those
-  var templateSettings = config("jst.templateSettings") || null;
+  var templateSettings = config("meta.jst.templateSettings") || null;
 
   // Create JST file.
   var files = file.expand(data);
-  file.write(name, task.helper('jst', files, namespace, templateSettings));
+  file.write(name, task.helper("jst", files, namespace, templateSettings));
 
   // Fail task if errors were logged.
   if (task.hadErrors()) { return false; }
@@ -19,16 +25,12 @@ task.registerBasicTask("jst", "Compile underscore templates to JST file", functi
   log.writeln("File \"" + name + "\" created.");
 });
 
-// ============================================================================
-// HELPERS
-// ============================================================================
-
 task.registerHelper("jst", function(files, namespace, templateSettings) {
   // Pulled from underscore 1.2.4
   function underscoreTemplating(str) {
       // Merge in the templateSettings that may be passed
-      var c  = _.extend({}, _.templateSettings, templateSettings) ||
-        _.templateSettings;
+      var c  = underscore.extend({}, underscore.templateSettings, templateSettings) ||
+        underscore.templateSettings;
 
       var tmpl = 'var __p=[],print=function(){__p.push.apply(__p,arguments);};' +
         'with(obj||{}){__p.push(\'' +
@@ -74,4 +76,3 @@ task.registerHelper("jst", function(files, namespace, templateSettings) {
 
   return contents;
 });
-

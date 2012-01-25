@@ -18,6 +18,8 @@ function($, _, Backbone) {
     },
 
     fetch: function(path) {
+      path = path + ".html";
+
       var done = this.async();
       var JST = window.JST = window.JST || {};
 
@@ -28,7 +30,7 @@ function($, _, Backbone) {
       }
 
       // Fetch it asynchronously if not available from JST
-      $.get(path + ".html", function(contents) {
+      $.get(path, function(contents) {
         var tmpl = _.template(contents);
 
         JST[path] = tmpl;

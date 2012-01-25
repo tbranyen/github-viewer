@@ -31,7 +31,7 @@ config.init({
   },
 
   min: {
-    "dist/release/index.js": ["dist/debug/index.js"],
+    "dist/release/index.js": ["dist/debug/templates.js", "dist/debug/index.js"],
     "dist/release/require.js": ["assets/js/libs/require.js"]
   },
 
@@ -59,9 +59,40 @@ config.init({
         "assets/css": "dist/release"
       }
     }
+  },
+
+  requirejs: {
+    paths: {
+      // JavaScript folders
+      libs: "../assets/js/libs",
+      plugins: "../assets/js/plugins",
+
+      // Libraries
+      jquery: "../assets/js/libs/jquery",
+      underscore: "../assets/js/libs/underscore",
+      backbone: "../assets/js/libs/backbone",
+
+      // Shim Plugin
+      use: "../assets/js/plugins/use"
+    },
+
+    use: {
+      backbone: {
+        deps: ["use!underscore", "jquery"],
+        attach: "Backbone"
+      },
+
+      underscore: {
+        attach: "_"
+      },
+      
+      "plugins/backbone.layoutmanager": {
+        deps: ["use!backbone"]
+      }
+    }
   }
 
 });
 
 // Run the following tasks...
-task.registerTask("default", "clean lint requirejs");
+task.registerTask("default", "clean lint jst requirejs");
