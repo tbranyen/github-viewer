@@ -78,7 +78,10 @@ function(bocoup, Backbone, Repo) {
         }));
       });
 
-      return view.render(this.collection);
+      return view.render(this.collection).then(function(el) {
+        // Only re-focus if invalid
+        $(el).find("input.invalid").focus();
+      });
     },
 
     initialize: function() {
