@@ -16,20 +16,19 @@ function(bocoup, Backbone) {
   // Create a new module
   var Commit = bocoup.module();
 
-  Commit.Model = Backbone.Model.extend({
-
-  });
-
   Commit.Collection = Backbone.Collection.extend({
-    model: Commit.Model,
-
     url: function() {
       return "https://api.github.com/repos/" + this.user + "/" + this.repo +
         "/commits?callback=?";
     },
 
     parse: function(obj) {
-      return obj.data;
+      // Safety check ensuring only valid data is used
+      if (obj.data.message !== "Not Found") {
+        return obj.data;
+      }
+
+      return this.models;
     },
 
     initialize: function(models, options) {

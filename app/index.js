@@ -10,7 +10,7 @@ require.config({
     underscore: "../assets/js/libs/underscore",
     backbone: "../assets/js/libs/backbone",
 
-    // Shim Plugin
+    // Plugins
     use: "../assets/js/plugins/use"
   },
 
@@ -26,6 +26,10 @@ require.config({
     
     "plugins/backbone.layoutmanager": {
       deps: ["use!backbone"]
+    },
+
+    "plugins/jquery.ba-throttle-debounce": {
+      deps: ["jquery"]
     }
   }
 });
@@ -78,8 +82,7 @@ function (bocoup, jQuery, Backbone, Repo, User, Commit) {
       index: function() {
         var main = this.swapLayout("main");
 
-        app.repos = new Repo.Collection([], { user: "tbranyen" });
-        app.repos.fetch();
+        app.repos = new Repo.Collection();
 
         app.users = new User.Collection([], { org: "bocoup" });
         app.users.fetch();

@@ -203,47 +203,97 @@ td { vertical-align: top; }
 
 
 /* ==|== primary styles =====================================================
-   Author: Backbone Boilerplate <Change to your Name>
+   Author: Layout Manager Example Styles
    ========================================================================== */
 
 #main {
+  margin: 20px;
   font-size: 14px;
+  font-family: "Gill Sans", Times, serif;
 }
 
-#main .users {
-  position: absolute;
-  top: 0px; left: 10px; right: 10px;
-  height: 50px;
+#main header h1 {
+  font-size: 25px;
+  color: #3A474C;
+  font-weight: normal;
 }
+
+#main header h1 span {
+  font-size: 22px;
+  color: #6C7A80;
+}
+
+#main .users .org {
+  font-size: 48px;
+  color: #FFF;
+  width: 314px;
+  border: none;
+  float: left;
+
+  border-top-left-radius: 9px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+
+  padding: 5px;
+}
+
+#main .users .org:hover, #main .users .org:focus, #main .users .org:active {
+  outline: none;
+  border: none;
+}
+
+#main .users .org.valid {
+  background: #CBED99;
+}
+
+#main .users .org.invalid {
+  background: #ED9999;
+}
+
 
 #main .users ul {
+  float: left;
+
+  width: 646px;
+  height: 65px;
+
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 9px;
+  border-bottom-left-radius: 0px;
+
   margin: 0; padding: 0;
+
+  background: #EDD699;
+
+  color: #FFF;
 }
 
 #main .users li {
   float: left;
-  margin: 10px;
+
+  margin: 6px;
+
   list-style: none;
 
-  padding: 5px;
-
   cursor: pointer;
+}
 
-  border: 2px solid #F3E;
+#main .users li:hover {
+  background: #ECED99;
 }
 
 #main .repos {
-  position: absolute;
-  top: 50px; bottom: 10px; left: 10px;
-  width: 300px;
-
-  background: #CCC;
+  width: 305px;
 
   padding: 10px;
 
   font-color: #333;
 
-  overflow-y: scroll;
+  float: left;
+
+  overflow-y: auto;
 }
 
 #main .repos ul {
@@ -268,16 +318,13 @@ td { vertical-align: top; }
 }
 
 #main .commits {
-  position: absolute;
-  top: 50px; bottom: 10px; left: 320px; right: 10px;
-
-  background: red;
-
   padding: 10px;
 
   font-color: #333;
 
-  overflow-y: scroll;
+  width: 625px;
+
+  overflow-y: auto;
 }
 
 #main .commits ul {
@@ -286,6 +333,7 @@ td { vertical-align: top; }
 
 #main .commits li {
   background: lightred;
+  font-weight: normal;
 }
 
 /* ==|== media queries ======================================================

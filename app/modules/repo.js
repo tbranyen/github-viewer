@@ -19,23 +19,24 @@ function(bocoup, Backbone, Commit) {
   // Create a new module
   var Repo = bocoup.module();
 
-  Repo.Model = Backbone.Model.extend({
-
-  });
-
   Repo.Collection = Backbone.Collection.extend({
-    model: Repo.Model,
-
     url: function() {
       return "https://api.github.com/users/" + this.user + "/repos?callback=?";
     },
 
     parse: function(obj) {
-      return obj.data;
+      // Safety check ensuring only valid data is used
+      if (obj.data.message !== "Not Found") {
+        return obj.data;
+      }
+
+      return this.models;
     },
 
     initialize: function(models, options) {
-      this.user = options.user;
+      if (options) {
+        this.user = options.user;
+      }
     },
 
     comparator: function(repo) {
@@ -59,14 +60,10 @@ function(bocoup, Backbone, Commit) {
     showCommits: function(ev) {
       var model = this.model;
 
-      var commits = new Commit.Collection([], {
-        user: model.collection.user,
-        repo: model.get("name")
-      });
+      app.commits.user = model.collection.user;
+      app.commits.repo = model.get("name");
 
-      commits.fetch().success(function() {
-        app.commits.reset(commits.models);
-      });
+      app.commits.fetch();
     }
   });
 

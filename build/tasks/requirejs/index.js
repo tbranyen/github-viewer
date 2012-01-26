@@ -26,14 +26,6 @@ task.registerTask("requirejs", "require.js builder", function() {
     name: "index"
   }, options);
 
-  options.use = options.use || {};
-
-  // Default shims for popular libaries
-  options.use = underscore.extend({
-    backbone: { deps: ["use!underscore", "jquery"] },
-    underscore: { attach: "_" }
-  }, options.use);
-
   // Run the r.js helper
   task.helper("r.js", options, function(response) {
     // Print out response

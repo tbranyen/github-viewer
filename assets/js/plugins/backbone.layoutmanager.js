@@ -385,7 +385,6 @@ var LayoutManager = Backbone.LayoutManager = Backbone.View.extend({
 
     // If the function was synchronous, continue execution.
     if (!handler._isAsync) {
-      console.log("here");
       return layoutDone(contents);
     }
   }
@@ -483,6 +482,5 @@ Backbone.LayoutManager.prototype.options = {
 };
 
 })(this.Backbone, this._, this.jQuery);
-
 
 

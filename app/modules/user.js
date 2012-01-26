@@ -8,7 +8,8 @@ define([
   "modules/repo",
 
   // Plugins
-  "use!plugins/backbone.layoutmanager"
+  "use!plugins/backbone.layoutmanager",
+  "use!plugins/jquery.ba-throttle-debounce"
 ],
 
 function(bocoup, Backbone, Repo) {
@@ -19,23 +20,28 @@ function(bocoup, Backbone, Repo) {
   // Create a new module
   var User = bocoup.module();
 
-  User.Model = Backbone.Model.extend({
-
-  });
-
   User.Collection = Backbone.Collection.extend({
-    model: User.Model,
-
     url: function() {
       return "https://api.github.com/orgs/" + this.org + "/members?callback=?";
     },
 
     parse: function(obj) {
-      return obj.data;
+      // Safety check ensuring only valid data is used
+      if (obj.data.message !== "Not Found") {
+        this.status = "valid";
+
+        return obj.data;
+      }
+
+      this.status = "invalid";
+
+      return this.models;
     },
 
     initialize: function(models, options) {
-      this.org = options.org;
+      if (options) {
+        this.org = options.org;
+      }
     }
   });
 
@@ -54,11 +60,9 @@ function(bocoup, Backbone, Repo) {
 
     changeUser: function(ev) {
       var model = this.model;
-      var repos = new Repo.Collection([], { user: model.get("login") });
 
-      repos.fetch().success(function() {
-        app.repos.reset(repos.models);
-      });
+      app.repos.user = model.get("login");
+      app.repos.fetch();
     }
   });
 
@@ -74,14 +78,25 @@ function(bocoup, Backbone, Repo) {
         }));
       });
 
-      return view.render();
+      return view.render(this.collection);
     },
 
     initialize: function() {
       this.collection.bind("reset", function() {
         this.render();
       }, this);
-    }
+    },
+
+    events: {
+      "keyup .org": "updateOrg"
+    },
+
+    updateOrg: $.debounce(450, function(ev) {
+      var name = ev.target.value;
+
+      app.users.org = name;
+      app.users.fetch();
+    })
   });
 
   // Required, return the module for AMD compliance
