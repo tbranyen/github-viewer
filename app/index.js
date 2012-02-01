@@ -59,11 +59,11 @@ function (bocoup, jQuery, Backbone, Repo, User, Commit) {
     // Defining the application router, you can attach sub routers here.
     var Router = Backbone.Router.extend({
       // Super-simple layout swapping and reusing
-      swapLayout: function(name) {
+      useLayout: function(name) {
         var currentLayout = this.currentLayout;
 
         // If there is an existing layout and its the current one, return it.
-        if (currentLayout && options.template == name) {
+        if (currentLayout && currentLayout.options.template == name) {
           return currentLayout;
         }
 
@@ -80,7 +80,7 @@ function (bocoup, jQuery, Backbone, Repo, User, Commit) {
       },
 
       index: function() {
-        var main = this.swapLayout("main");
+        var main = this.useLayout("main");
 
         app.repos = new Repo.Collection();
 

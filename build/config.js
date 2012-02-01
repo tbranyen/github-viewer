@@ -10,12 +10,6 @@ config.init({
     files: ["build/config.js", "app/**/*.js"]
   },
 
-  jshint: {
-    options: {
-      evil: true
-    }
-  },
-
   watch: {
     files: ["app/**/*", "assets/**/*"],
     tasks: "lint:files requirejs",
