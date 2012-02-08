@@ -22,7 +22,7 @@ function($, _, Backbone) {
 
       var done = this.async();
       var JST = window.JST = window.JST || {};
-
+      
       // Should be an instant synchronous way of getting the template, if it
       // exists in the JST object.
       if (JST[path]) {
@@ -30,9 +30,9 @@ function($, _, Backbone) {
       }
 
       // Fetch it asynchronously if not available from JST
-      $.get(path, function(contents) {
-        var tmpl = _.template(contents);
-
+      require([
+        'util/text!' + path
+      ], function(tmpl) {
         JST[path] = tmpl;
         done(tmpl);
       });

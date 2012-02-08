@@ -11,7 +11,8 @@ require.config({
     backbone: "../assets/js/libs/backbone",
 
     // Plugins
-    use: "../assets/js/plugins/use"
+    use: "../assets/js/plugins/use", 
+    text: "../assets/js/plugins/text"
   },
 
   use: {
