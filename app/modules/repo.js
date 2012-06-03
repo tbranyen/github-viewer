@@ -34,7 +34,7 @@ function(app, Backbone, Commit) {
     },
 
     comparator: function(repo) {
-      return repo.get("name").toLowerCase();
+      return -new Date(repo.get("pushed_at"));
     }
   });
 
@@ -53,14 +53,16 @@ function(app, Backbone, Commit) {
     
     showCommits: function(ev) {
       var model = this.model;
-      var commits = app.router.commits;
+      var org = app.router.users.org;
+      var user = app.router.repos.user;
 
       this.$el.parent().children().removeClass("active");
       this.$el.addClass("active");
 
-      commits.user = model.collection.user;
-      commits.repo = model.get("name");
-      commits.fetch();
+      // Easily create a URL
+      app.router.go("org", org, "user", user, "repo", model.get("name"));
+
+      return false;
     }
   });
 
@@ -77,6 +79,10 @@ function(app, Backbone, Commit) {
       }, this);
 
       return manage(this).render({ count: this.collection.length });
+    },
+
+    cleanup: function() {
+      this.collection.off(null, null, this);
     },
 
     initialize: function() {

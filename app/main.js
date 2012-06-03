@@ -17,41 +17,92 @@ function (app, $, Backbone, Repo, User, Commit) {
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
     routes: {
-      "": "index"
+      "": "index",
+      "org/:name": "org",
+      "org/:org/user/:name": "user",
+      "org/:org/user/:user/repo/:name": "repo"
     },
 
     index: function() {
+      // Set the default layout
       this.useLayout("main");
+    },
+
+    org: function(name) {
+      // Set the default layout.
+      this.useLayout("main");
+
+      // Set the organization.
+      this.users.org = name;
+
+      // Fetch the data.
+      this.users.fetch();
+    },
+
+    user: function(org, name) {
+      // Set the default layout.
+      this.useLayout("main");
+
+      // Set the organization.
+      this.users.org = org;
+
+      // Set the user name.
+      this.repos.user = name;
+
+      // Fetch the data
+      this.users.fetch();
+      this.repos.fetch();
+    },
+
+    repo: function(org, user, name) {
+      // Set the default layout.
+      this.useLayout("main");
+
+      // Set the organization.
+      this.users.org = org;
+
+      // Set the user name.
+      this.repos.user = user;
+
+      // Set the repo name
+      this.commits.user = user;
+      this.commits.repo = name;
+
+      // Fetch the data
+      this.users.fetch();
+      this.repos.fetch();
+      this.commits.fetch();
+    },
+
+    // Shortcut for building a url.
+    go: function() {
+      return this.navigate(_.toArray(arguments).join("/"), true);
+    },
+
+    initialize: function() {
+      this.useLayout("main");
+
+      // Set up the users.
+      this.users = new User.Collection();
+      // Set the repos.
+      this.repos = new Repo.Collection();
+      // Set up the commits.
+      this.commits = new Commit.Collection();
 
       // Set all the views.
       this.layout.setViews({
-        ".repos": new Repo.Views.List({
-          collection: this.repos
-        }),
-
         ".users": new User.Views.List({
           collection: this.users
+        }),
+
+        ".repos": new Repo.Views.List({
+          collection: this.repos
         }),
 
         ".commits": new Commit.Views.List({
           collection: this.commits
         })
       });
-
-      // Render to the page.
-      this.layout.render();
-    },
-
-    initialize: function() {
-      // Set up the users.
-      this.users = new User.Collection([], { org: "bocoup" });
-      this.users.fetch();
-
-      // Set the repos.
-      this.repos = new Repo.Collection();
-
-      // Set up the commits.
-      this.commits = new Commit.Collection();
     },
 
     useLayout: function(name) {
@@ -69,6 +120,8 @@ function (app, $, Backbone, Repo, User, Commit) {
 
       // Insert into the DOM.
       $("#main").html(this.layout.el);
+
+      this.layout.render();
 
       return this.layout;
     }

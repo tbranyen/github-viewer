@@ -53,9 +53,14 @@ function(app, Backbone, Repo) {
 
     changeUser: function(ev) {
       var model = this.model;
+      var org = app.router.users.org;
+      var name = model.get("login");
 
-      app.router.repos.user = model.get("login");
-      app.router.repos.fetch();
+      app.router.go("org", org, "user", name);
+    },
+
+    cleanup: function() {
+      this.model.off(null, null, this);
     },
 
     initialize: function() {
@@ -96,10 +101,7 @@ function(app, Backbone, Repo) {
     },
 
     updateOrg: $.debounce(450, function(ev) {
-      var name = ev.target.value;
-
-      app.router.users.org = name;
-      app.router.users.fetch();
+      app.router.go("org", ev.target.value);
     })
   });
 

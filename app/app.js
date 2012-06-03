@@ -28,7 +28,7 @@ function($, _, Backbone) {
       path = path + ".html";
 
       if (!JST[path]) {
-        $.ajax({ url: path, async: false }).then(function(contents) {
+        $.ajax({ url: "/" + path, async: false }).then(function(contents) {
           JST[path] = _.template(contents);
         });
       } 
