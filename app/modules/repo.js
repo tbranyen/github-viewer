@@ -44,7 +44,7 @@ function(bocoup, Backbone, Commit) {
     }
   });
 
-  Repo.Views.Item = Backbone.LayoutManager.View.extend({
+  Repo.Views.Item = Backbone.View.extend({
     template: "repos/item",
 
     tagName: "li",

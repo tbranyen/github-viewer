@@ -39,7 +39,7 @@ function(bocoup, Backbone) {
     }
   });
 
-  Commit.Views.Item = Backbone.LayoutManager.View.extend({
+  Commit.Views.Item = Backbone.View.extend({
     template: "commits/item",
 
     tagName: "li",

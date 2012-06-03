@@ -45,7 +45,7 @@ function(bocoup, Backbone, Repo) {
     }
   });
 
-  User.Views.Item = Backbone.LayoutManager.View.extend({
+  User.Views.Item = Backbone.View.extend({
     template: "users/item",
 
     tagName: "li",
@@ -63,6 +63,12 @@ function(bocoup, Backbone, Repo) {
 
       app.repos.user = model.get("login");
       app.repos.fetch();
+    },
+
+    initialize: function() {
+      this.model.on("change", function() {
+        this.render();
+      }, this);
     }
   });
 
