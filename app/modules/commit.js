@@ -36,7 +36,7 @@ function(app, Backbone) {
   Commit.Views.Item = Backbone.View.extend({
     template: "commits/item",
 
-    tagName: "li",
+    tagName: "tr",
 
     serialize: function() {
       return { model: this.model };
@@ -44,9 +44,9 @@ function(app, Backbone) {
   });
 
   Commit.Views.List = Backbone.View.extend({
-    tagName: "ul",
+    tagName: "table",
 
-    className: "commits-list",
+    className: "table table-striped",
 
     render: function(manage) {
       this.collection.each(function(commit) {

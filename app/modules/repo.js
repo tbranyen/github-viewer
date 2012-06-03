@@ -55,6 +55,9 @@ function(app, Backbone, Commit) {
       var model = this.model;
       var commits = app.router.commits;
 
+      this.$el.parent().children().removeClass("active");
+      this.$el.addClass("active");
+
       commits.user = model.collection.user;
       commits.repo = model.get("name");
       commits.fetch();

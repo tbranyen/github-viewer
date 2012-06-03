@@ -1,5 +1,8 @@
-<h3>Repos (<%= count %>)</h3>
+<% if (count) { %>
+<h4>Repos (<%= count %>)</h4>
 <hr>
-Click on a username to see repos
-<ul class="repo-list">
-</ul>
+<% } else { %>
+<h4>No repos found.</h4>
+<% } %>
+
+<ul class="nav nav-pills nav-stacked"></ul>

@@ -4,12 +4,16 @@ define([
   "lodash",
   "backbone",
 
-  // Plugins
-  "plugins/backbone.layoutmanager",
-  "plugins/jquery.ba-throttle-debounce"
+  // jQuery plugins
+  "vendor/bootstrap/js/bootstrap",
+  "plugins/jquery.ba-throttle-debounce",
+
+  // Backbone plugins
+  "plugins/backbone.layoutmanager"
 ],
 
 function($, _, Backbone) {
+
   // Create or attach to the global JavaScript Template cache.
   var JST = window.JST = window.JST || {}; 
 
@@ -42,4 +46,5 @@ function($, _, Backbone) {
     // Keep active application instances namespaced under an app object.
     app: _.extend({}, Backbone.Events)
   };
+
 });

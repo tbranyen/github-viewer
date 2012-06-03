@@ -1,2 +1,13 @@
-<input type="text" class="org <%= collection.status %>" value="<%= collection.org %>">
-<ul class="user-list"></ul>
+<div class="container-fluid well">
+  <div class="row">
+    <div class="span3 adjust">
+      <strong class="label">Enter an organization name:</strong>
+      <input type="text" class="search-query org <%= collection.status %>" name="org" value="<%= collection.org %>">
+    </div>
+
+    <div class="span9">
+      <strong class="label">Select a user:</strong>
+      <ul class="user-list clearfix unstyled"></ul>
+    </div>
+  </div>
+</div>

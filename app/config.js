@@ -7,6 +7,7 @@ require.config({
     // JavaScript folders
     libs: "../assets/js/libs",
     plugins: "../assets/js/plugins",
+    vendor: "../assets/vendor",
 
     // Libraries
     jquery: "../assets/js/libs/jquery",
@@ -25,6 +26,10 @@ require.config({
     },
 
     "plugins/jquery.ba-throttle-debounce": {
+      deps: ["jquery"]
+    },
+
+    "vendor/bootstrap/js/bootstrap": {
       deps: ["jquery"]
     }
   }

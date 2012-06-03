@@ -1,129 +1,39 @@
-#main {
-  margin: 20px;
-  font-size: 14px;
-  font-family: "Gill Sans", Times, serif;
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
 }
 
-#main header h1 {
-  font-size: 25px;
-  color: #3A474C;
-  font-weight: normal;
-}
-
-#main header h1 span {
-  font-size: 22px;
-  color: #6C7A80;
-}
-
-#main .users .org {
-  font-size: 48px;
-  color: #FFF;
-  width: 314px;
-  border: none;
+.user-list li {
   float: left;
-
-  border-top-left-radius: 9px;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
-
-  padding: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
 }
 
-#main .users .org:hover, #main .users .org:focus, #main .users .org:active {
-  outline: none;
-  border: none;
+.adjust {
+  padding-left: 20px;
 }
 
-#main .users .org.valid {
-  background: #CBED99;
-}
-
-#main .users .org.invalid {
-  background: #ED9999;
-}
-
-
-#main .users ul {
-  float: left;
-
-  width: 646px;
-  height: 65px;
-
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 9px;
-  border-bottom-left-radius: 0px;
-
-  margin: 0; padding: 0;
-
-  background: #EDD699;
-
-  color: #FFF;
-}
-
-#main .users li {
-  float: left;
-
-  margin: 6px;
-
-  list-style: none;
-
-  cursor: pointer;
-}
-
-#main .users li:hover {
-  background: #ECED99;
-}
-
-#main .repos {
-  width: 305px;
-
-  padding: 10px;
-
-  font-color: #333;
-
-  float: left;
-
-  overflow-y: auto;
-}
-
-#main .repos ul {
-  margin: 0; padding: 0;
-}
-
-#main .repos li {
-  background: #DDD;
+strong.label {
+  margin-bottom: 10px;
   display: block;
-
-  border: 2px solid #333;
-
   padding: 5px;
-
-  margin: 5px;
-
-  cursor: pointer;
+  padding-left: 10px;
 }
 
-#main hr {
-  border-top: 1px solid #333;
+input.org {
+  font-size: 24px;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0px;
 }
 
-#main .commits {
-  padding: 10px;
-
-  font-color: #333;
-
-  width: 625px;
-
-  overflow-y: auto;
+.commits {
+  margin-top: 35px;
 }
 
-#main .commits ul {
-  margin: 0; padding: 0;
-}
-
-#main .commits li {
-  background: lightred;
-  font-weight: normal;
+.content {
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
 }

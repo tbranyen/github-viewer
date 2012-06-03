@@ -1,7 +1,16 @@
-<header>
-  <h1>GitHub Organization Viewer <span>(Backbone LayoutManager Example)</span></h1>
-</header>
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <a class="brand" href="#"> GitHub Organization Viewer</a>
+      <span class="navbar-text">Backbone Boilerplate/LayoutManager Example</span>
+    </div>
+  </div>
+</div>
 
-<section class="users clearfix"></section>
-<aside class="repos clearfix"></aside>
-<section class="commits clearfix"></section>
+<div class="container-fluid">
+  <div class="row-fluid users"></div>
+  <div class="row-fluid content">
+    <aside class="span3 repos"></aside>
+    <section class="span9 commits"></section>
+  </div>
+</div>
