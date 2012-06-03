@@ -1,20 +1,14 @@
 define([
-  "namespace",
+  // Global application context.
+  "app",
 
-  // Libs
-  "use!backbone",
-
-  // Plugins
-  "use!plugins/backbone.layoutmanager"
+  // Third-party libraries.
+  "backbone"
 ],
 
-function(bocoup, Backbone) {
+function(app, Backbone) {
 
-  // Shorthand the app
-  var app = bocoup.app;
-
-  // Create a new module
-  var Commit = bocoup.module();
+  var Commit = app.module();
 
   Commit.Collection = Backbone.Collection.extend({
     url: function() {
@@ -45,27 +39,31 @@ function(bocoup, Backbone) {
     tagName: "li",
 
     serialize: function() {
-      return this.model.toJSON();
+      return { model: this.model };
     }
   });
 
   Commit.Views.List = Backbone.View.extend({
-    template: "commits/list",
+    tagName: "ul",
 
-    render: function(layout) {
-      var view = layout(this);
+    className: "commits-list",
 
+    render: function(manage) {
       this.collection.each(function(commit) {
-        view.insert("ul", new Commit.Views.Item({
+        this.insertView(new Commit.Views.Item({
           model: commit
         }));
-      });
+      }, this);
 
-      return view.render();
+      return manage(this).render();
+    },
+
+    cleanup: function() {
+      this.collection.off(null, null, this);
     },
 
     initialize: function() {
-      this.collection.bind("reset", function() {
+      this.collection.on("all", function() {
         this.render();
       }, this);
     }

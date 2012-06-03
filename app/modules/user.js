@@ -1,24 +1,17 @@
 define([
-  "namespace",
+  // Global application context.
+  "app",
 
-  // Libs
-  "use!backbone",
+  // Third-party libraries.
+  "backbone",
 
   // Modules
-  "modules/repo",
-
-  // Plugins
-  "use!plugins/backbone.layoutmanager",
-  "use!plugins/jquery.ba-throttle-debounce"
+  "modules/repo"
 ],
 
-function(bocoup, Backbone, Repo) {
+function(app, Backbone, Repo) {
 
-  // Shorthand the app
-  var app = bocoup.app;
-
-  // Create a new module
-  var User = bocoup.module();
+  var User = app.module();
 
   User.Collection = Backbone.Collection.extend({
     url: function() {
@@ -51,7 +44,7 @@ function(bocoup, Backbone, Repo) {
     tagName: "li",
 
     serialize: function() {
-      return this.model.toJSON();
+      return { model: this.model };
     },
 
     events: {
@@ -61,8 +54,8 @@ function(bocoup, Backbone, Repo) {
     changeUser: function(ev) {
       var model = this.model;
 
-      app.repos.user = model.get("login");
-      app.repos.fetch();
+      app.router.repos.user = model.get("login");
+      app.router.repos.fetch();
     },
 
     initialize: function() {
@@ -75,18 +68,20 @@ function(bocoup, Backbone, Repo) {
   User.Views.List = Backbone.View.extend({
     template: "users/list",
 
-    render: function(layout) {
-      var view = layout(this);
+    serialize: function() {
+      return { collection: this.collection };
+    },
 
+    render: function(manage) {
       this.collection.each(function(user) {
-        view.insert("ul", new User.Views.Item({
+        this.insertView("ul", new User.Views.Item({
           model: user
         }));
-      });
+      }, this);
 
-      return view.render(this.collection).then(function(el) {
+      return manage(this).render().then(function(el) {
         // Only re-focus if invalid
-        $(el).find("input.invalid").focus();
+        this.$("input.invalid").focus();
       });
     },
 
@@ -103,12 +98,11 @@ function(bocoup, Backbone, Repo) {
     updateOrg: $.debounce(450, function(ev) {
       var name = ev.target.value;
 
-      app.users.org = name;
-      app.users.fetch();
+      app.router.users.org = name;
+      app.router.users.fetch();
     })
   });
 
-  // Required, return the module for AMD compliance
   return User;
 
 });

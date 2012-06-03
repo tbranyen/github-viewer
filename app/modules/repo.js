@@ -1,23 +1,17 @@
 define([
-  "namespace",
+  // Global application context.
+  "app",
 
   // Libs
-  "use!backbone",
+  "backbone",
 
   // Modules
-  "modules/commit",
-
-  // Plugins
-  "use!plugins/backbone.layoutmanager"
+  "modules/commit"
 ],
 
-function(bocoup, Backbone, Commit) {
+function(app, Backbone, Commit) {
 
-  // Shorthand the app
-  var app = bocoup.app;
-
-  // Create a new module
-  var Repo = bocoup.module();
+  var Repo = app.module();
 
   Repo.Collection = Backbone.Collection.extend({
     url: function() {
@@ -50,7 +44,7 @@ function(bocoup, Backbone, Commit) {
     tagName: "li",
 
     serialize: function() {
-      return this.model.toJSON();
+      return { model: this.model };
     },
 
     events: {
@@ -59,11 +53,11 @@ function(bocoup, Backbone, Commit) {
     
     showCommits: function(ev) {
       var model = this.model;
+      var commits = app.router.commits;
 
-      app.commits.user = model.collection.user;
-      app.commits.repo = model.get("name");
-
-      app.commits.fetch();
+      commits.user = model.collection.user;
+      commits.repo = model.get("name");
+      commits.fetch();
     }
   });
 
@@ -72,26 +66,23 @@ function(bocoup, Backbone, Commit) {
 
     className: "repos-wrapper",
 
-    render: function(layout) {
-      var view = layout(this);
-
+    render: function(manage) {
       this.collection.each(function(repo) {
-        view.insert("ul", new Repo.Views.Item({
+        this.insertView("ul", new Repo.Views.Item({
           model: repo
         }));
-      });
+      }, this);
 
-      return view.render({ count: this.collection.length });
+      return manage(this).render({ count: this.collection.length });
     },
 
     initialize: function() {
-      this.collection.bind("reset", function() {
+      this.collection.on("reset", function() {
         this.render();
       }, this);
     }
   });
 
-  // Required, return the module for AMD compliance
   return Repo;
 
 });
