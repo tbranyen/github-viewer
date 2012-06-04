@@ -24,6 +24,8 @@ input.org {
   width: 70%;
   height: 100%;
   box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
   margin-bottom: 0px;
 }
 
@@ -39,4 +41,6 @@ input.btn {
   padding-left: 20px;
   padding-right: 20px;
   box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
 }
