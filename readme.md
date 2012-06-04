@@ -21,7 +21,7 @@ git clone git://github.com/tbranyen/github-viewer.git
 # Change directory into it.
 cd github-viewer
 
-# Run the server
+# Run the server.
 bbb server
 ```
 
@@ -49,7 +49,35 @@ To Be Written.
 
 ## Deployment ##
 
-To Be Written.
+This is deployed on a Linode Arch Linux server that runs Nginx.  It is served
+locally and updated via a `git pull` and `bbb release` combination.
+
+The configuration looks like:
+
+``` nginx
+server {
+  listen 80;
+  server_name githubviewer.org;
+
+  location / {
+    root /github-viewer/;
+
+    try_files $uri /index.html;
+  }
+
+  location /app {
+    alias /github-viewer/dist/release/;
+  }
+
+  location /assets/js/libs {
+    alias /github-viewer/dist/release/;
+  }
+
+  location /assets/css {
+    alias /github-viewer/dist/release/;
+  }
+}
+```
 
 ## Credits ##
 
