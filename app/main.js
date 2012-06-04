@@ -24,11 +24,21 @@ function (app, $, Backbone, Repo, User, Commit) {
     },
 
     index: function() {
-      // Set the default layout
+      this.users.reset();
+      this.repos.reset();
+      this.commits.reset();
+
+      this.useLayout("main");
+
       this.layout.render();
     },
 
     org: function(name) {
+      this.repos.reset();
+      this.commits.reset();
+
+      this.useLayout("main");
+
       // Set the organization.
       this.users.org = name;
 
@@ -37,6 +47,11 @@ function (app, $, Backbone, Repo, User, Commit) {
     },
 
     user: function(org, name) {
+      // Reset the data.
+      this.commits.reset();
+
+      this.useLayout("main");
+
       // Set the organization.
       this.users.org = org;
       // Set the user name.
@@ -48,6 +63,8 @@ function (app, $, Backbone, Repo, User, Commit) {
     },
 
     repo: function(org, user, name) {
+      this.useLayout("main");
+
       // Set the organization.
       this.users.org = org;
       // Set the user name.
@@ -68,14 +85,15 @@ function (app, $, Backbone, Repo, User, Commit) {
     },
 
     initialize: function() {
-      this.useLayout("main");
-
       // Set up the users.
       this.users = new User.Collection();
       // Set the repos.
       this.repos = new Repo.Collection();
       // Set up the commits.
       this.commits = new Commit.Collection();
+
+      // Start with the default layout.
+      this.useLayout("main");
 
       // Set all the views.
       this.layout.setViews({
@@ -95,7 +113,7 @@ function (app, $, Backbone, Repo, User, Commit) {
 
     useLayout: function(name) {
       // If already using this Layout, then don't re-inject into the DOM.
-      if (this.layout && this.layout.options.template === name) {
+      if (this.layout) {
         return this.layout;
       }
 
