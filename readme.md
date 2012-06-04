@@ -36,7 +36,7 @@ isolated to JavaScript.
 [backbone-boilerplate](https://github.com/tbranyen/backbone-boilerplate)
 
 The foundation of the entire application structure and the deployment assets.
-Along with [grunt-bbb)(https://github.com/backbone-boilerplate/grunt-bbb) the
+Along with [grunt-bbb](https://github.com/backbone-boilerplate/grunt-bbb) the
 application can be tested locally and built for production with the same tool.
 
 Some custom tweaks needed to be added for this to work:
