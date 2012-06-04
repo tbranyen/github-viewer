@@ -10,6 +10,20 @@ displayed.
 
 ## Running locally ##
 
+To run locally you will need to install [Node.js](http://nodejs.org) and
+[grunt-bbb](http://github.com/backbone-boilerplate/grunt-bbb).  Once the
+dependencies are installed, simply clone the repository and run the server.
+
+``` bash
+# Clone the repository.
+git clone git://github.com/tbranyen/github-viewer.git
+
+# Change directory into it.
+cd github-viewer
+
+# Run the server
+bbb server
+```
 
 ## Stack ##
 
