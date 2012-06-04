@@ -25,13 +25,10 @@ function (app, $, Backbone, Repo, User, Commit) {
 
     index: function() {
       // Set the default layout
-      this.useLayout("main");
+      this.layout.render();
     },
 
     org: function(name) {
-      // Set the default layout.
-      this.useLayout("main");
-
       // Set the organization.
       this.users.org = name;
 
@@ -40,9 +37,6 @@ function (app, $, Backbone, Repo, User, Commit) {
     },
 
     user: function(org, name) {
-      // Set the default layout.
-      this.useLayout("main");
-
       // Set the organization.
       this.users.org = org;
       // Set the user name.
@@ -54,9 +48,6 @@ function (app, $, Backbone, Repo, User, Commit) {
     },
 
     repo: function(org, user, name) {
-      // Set the default layout.
-      this.useLayout("main");
-
       // Set the organization.
       this.users.org = org;
       // Set the user name.
