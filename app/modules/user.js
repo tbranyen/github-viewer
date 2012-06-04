@@ -41,7 +41,7 @@ function(app, Backbone, Repo) {
   });
 
   User.Views.Item = Backbone.View.extend({
-    template: "users/item",
+    template: "user/item",
 
     tagName: "li",
 
@@ -73,7 +73,7 @@ function(app, Backbone, Repo) {
   });
 
   User.Views.List = Backbone.View.extend({
-    template: "users/list",
+    template: "user/list",
 
     serialize: function() {
       return { collection: this.collection };

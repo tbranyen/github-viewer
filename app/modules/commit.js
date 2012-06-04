@@ -46,7 +46,7 @@ function(app, Backbone) {
   });
 
   Commit.Views.Item = Backbone.View.extend({
-    template: "commits/item",
+    template: "commit/item",
 
     tagName: "tr",
 

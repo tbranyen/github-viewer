@@ -41,7 +41,7 @@ function(app, Backbone, Commit) {
   });
 
   Repo.Views.Item = Backbone.View.extend({
-    template: "repos/item",
+    template: "repo/item",
 
     tagName: "li",
 
@@ -79,7 +79,7 @@ function(app, Backbone, Commit) {
   });
 
   Repo.Views.List = Backbone.View.extend({
-    template: "repos/list",
+    template: "repo/list",
 
     className: "repos-wrapper",
 
