@@ -1,31 +1,42 @@
-Backbone Boilerplate
-====================
+GitHub Viewer
+=============
 
-This boilerplate is the product of much research and frustration.  Existing
-boilerplates freely modify Backbone core, lack a build process, and are
-very prescriptive; this boilerplate changes that.
+[http://www.githubviewer.org/](http://www.githubviewer.org/)
 
-Organize your application in a logical filesystem, develop your
-Models/Collections/Views/Routers inside modules, and build knowing you have
-efficient code that will not bottleneck your users.
+An example application that connects to the GitHub REST API and displays
+users from organizations.  Users can then be clicked to retrieve their
+repositories.  Finally, a repository can be clicked and recent commits
+displayed.
 
-Thanks to our
-[Contributors](https://github.com/tbranyen/backbone-boilerplate/contributors)!
+## Running locally ##
 
-Special Thanks to: [cowboy](http://github.com/cowboy),
-[iros](http://github.com/iros), [nimbupani](http://github.com/nimbupani),
-[wookiehangover](http://github.com/wookiehangover), and
-[jugglinmike](http://github.com/jugglinmike)
 
-## Documentation ##
+## Stack ##
 
-View the Backbone Boilerplate documentation here:
+This is an entirely client-side application, meaning aside from the configured
+HTTP server and the remote API, there is no server processing.  All logic is
+isolated to JavaScript.
 
-[GitHub Wiki](https://github.com/tbranyen/backbone-boilerplate/wiki)
+### Backbone Boilerplate ###
 
-## Build process ##
+To Be Written.
 
-To use the new and improved build process, please visit the 
-[grunt-bbb](https://github.com/backbone-boilerplate/grunt-bbb)
-plugin repo and follow the instructions to install.  Basing your project off
-this repo will allow the `bbb` commands to work out-of-the-box.
+### Backbone LayoutManager ###
+
+To Be Written.
+
+### Backbone CollectionCache ###
+
+To Be Written.
+
+### Twitter Bootstrap ###
+
+To Be Written.
+
+## Deployment ##
+
+To Be Written.
+
+## Credits ##
+
+[@tbranyen](http://twitter.com/tbranyen)
