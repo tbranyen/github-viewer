@@ -29,8 +29,6 @@ function (app, $, Backbone, Repo, User, Commit) {
       this.commits.reset();
 
       this.useLayout("main");
-
-      this.layout.render();
     },
 
     org: function(name) {
