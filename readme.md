@@ -46,7 +46,7 @@ Some custom tweaks needed to be added for this to work:
 
 ### Backbone LayoutManager ###
 
-[backbone.layoutmanager.js](https://github.com/tbranyen/backbone.layoutmanager)
+[backbone.layoutmanager](https://github.com/tbranyen/backbone.layoutmanager)
 
 Used for the general layout and View arrangement.  Is also used to facilitate
 re-rendering and collection lists.  One single layout is created throughout
