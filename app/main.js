@@ -45,7 +45,6 @@ function (app, $, Backbone, Repo, User, Commit) {
 
       // Set the organization.
       this.users.org = org;
-
       // Set the user name.
       this.repos.user = name;
 
@@ -60,10 +59,8 @@ function (app, $, Backbone, Repo, User, Commit) {
 
       // Set the organization.
       this.users.org = org;
-
       // Set the user name.
       this.repos.user = user;
-
       // Set the repo name
       this.commits.user = user;
       this.commits.repo = name;
@@ -121,6 +118,7 @@ function (app, $, Backbone, Repo, User, Commit) {
       // Insert into the DOM.
       $("#main").html(this.layout.el);
 
+      // Render the layout.
       this.layout.render();
 
       return this.layout;
