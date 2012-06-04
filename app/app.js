@@ -16,7 +16,7 @@ function($, _, Backbone) {
   // Create or attach to the global JavaScript Template cache.
   var JST = window.JST = window.JST || {}; 
 
-  // Configure LayoutManager
+  // Configure LayoutManager.
   Backbone.LayoutManager.configure({
     paths: {
       layout: "app/templates/layouts/",
@@ -35,6 +35,7 @@ function($, _, Backbone) {
       return JST[path];
     }
   });
+
 
   return {
     // Create a custom object with a nested Views object

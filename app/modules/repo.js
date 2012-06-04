@@ -56,13 +56,23 @@ function(app, Backbone, Commit) {
       var org = app.router.users.org;
       var user = app.router.repos.user;
 
-      this.$el.parent().children().removeClass("active");
-      this.$el.addClass("active");
+      // Immediately reflect the active state.
+      this.model.active = true;
+      this.render();
 
-      // Easily create a URL
+      // Easily create a URL.
       app.router.go("org", org, "user", user, "repo", model.get("name"));
 
       return false;
+    },
+
+    render: function(manage) {
+      if (this.model.active) {
+        this.$el.siblings().removeClass("active");
+        this.$el.addClass("active");
+      }
+
+      return manage(this).render();
     }
   });
 
@@ -72,7 +82,13 @@ function(app, Backbone, Commit) {
     className: "repos-wrapper",
 
     render: function(manage) {
+      var active = app.router.commits.repo;
+
       this.collection.each(function(repo) {
+        if (repo.get("name") === active) {
+          repo.active = true;
+        }
+
         this.insertView("ul", new Repo.Views.Item({
           model: repo
         }));
