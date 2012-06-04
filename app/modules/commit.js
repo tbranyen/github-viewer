@@ -51,7 +51,11 @@ function(app, Backbone) {
     tagName: "tr",
 
     serialize: function() {
-      return { model: this.model };
+      return {
+        model: this.model,
+        repo: this.options.repo,
+        user: this.options.user
+      };
     }
   });
 
@@ -63,7 +67,9 @@ function(app, Backbone) {
     render: function(manage) {
       this.collection.each(function(commit) {
         this.insertView(new Commit.Views.Item({
-          model: commit
+          model: commit,
+          repo: this.collection.repo,
+          user: this.collection.user
         }));
       }, this);
 
