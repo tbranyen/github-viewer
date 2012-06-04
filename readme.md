@@ -33,19 +33,40 @@ isolated to JavaScript.
 
 ### Backbone Boilerplate ###
 
-To Be Written.
+[backbone-boilerplate](https://github.com/tbranyen/backbone-boilerplate)
+
+The foundation of the entire application structure and the deployment assets.
+Along with [grunt-bbb)(https://github.com/backbone-boilerplate/grunt-bbb) the
+application can be tested locally and built for production with the same tool.
+
+Some custom tweaks needed to be added for this to work:
+
+* Added in an `assets/vendor` directory.
+* `production-fixes.css` file to map the Twitter Bootstrap images correctly.
 
 ### Backbone LayoutManager ###
 
-To Be Written.
+[backbone.layoutmanager.js](https://github.com/tbranyen/backbone.layoutmanager)
+
+Used for the general layout and View arrangement.  Is also used to facilitate
+re-rendering and collection lists.  One single layout is created throughout
+the lifespan of the application and instead the individual regions are updated.
 
 ### Backbone CollectionCache ###
 
-To Be Written.
+[backbone.collectioncache.js](https://gist.github.com/2866702)
+
+This is a *work-in-progress* Backbone plugin to provide a better caching
+mechanism for Collections.  It's used within this application to provide
+client-side caching in both sessionStorage (persist refresh) and inside memory
+for faster lookups.
 
 ### Twitter Bootstrap ###
 
-To Be Written.
+[bootstrap](https://github.com/twitter/bootstrap/)
+
+Made the design look significantly better than the original.  Responsible for
+the entire UI layer.
 
 ## Deployment ##
 
