@@ -27,6 +27,10 @@ require.config({
 
     "vendor/bootstrap/js/bootstrap": {
       deps: ["jquery"]
+    },
+
+    "plugins/backbone.collectioncache": {
+      deps: ["backbone", "lodash"]
     }
   }
 });

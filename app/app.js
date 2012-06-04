@@ -8,7 +8,8 @@ define([
   "vendor/bootstrap/js/bootstrap",
 
   // Backbone plugins
-  "plugins/backbone.layoutmanager"
+  "plugins/backbone.layoutmanager",
+  "plugins/backbone.collectioncache"
 ],
 
 function($, _, Backbone) {
@@ -35,7 +36,6 @@ function($, _, Backbone) {
       return JST[path];
     }
   });
-
 
   return {
     // Create a custom object with a nested Views object

@@ -18,6 +18,8 @@ function(app, Backbone, Commit) {
       return "https://api.github.com/users/" + this.user + "/repos?callback=?";
     },
 
+    cache: true,
+
     parse: function(obj) {
       // Safety check ensuring only valid data is used
       if (obj.data.message !== "Not Found") {

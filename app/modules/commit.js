@@ -21,6 +21,8 @@ function(app, Backbone) {
   Commit.Collection = Backbone.Collection.extend({
     model: Commit.Model,
 
+    cache: true,
+
     url: function() {
       return "https://api.github.com/repos/" + this.user + "/" + this.repo +
         "/commits?callback=?";
@@ -29,7 +31,6 @@ function(app, Backbone) {
     parse: function(obj) {
       // Safety check ensuring only valid data is used
       if (obj.data.message !== "Not Found") {
-        console.log(obj.data);
         return obj.data;
       }
 
