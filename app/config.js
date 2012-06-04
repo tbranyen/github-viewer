@@ -25,10 +25,6 @@ require.config({
       deps: ["backbone"]
     },
 
-    "plugins/jquery.ba-throttle-debounce": {
-      deps: ["jquery"]
-    },
-
     "vendor/bootstrap/js/bootstrap": {
       deps: ["jquery"]
     }

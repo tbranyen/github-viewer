@@ -6,7 +6,6 @@ define([
 
   // jQuery plugins
   "vendor/bootstrap/js/bootstrap",
-  "plugins/jquery.ba-throttle-debounce",
 
   // Backbone plugins
   "plugins/backbone.layoutmanager"

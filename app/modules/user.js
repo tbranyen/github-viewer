@@ -97,12 +97,14 @@ function(app, Backbone, Repo) {
     },
 
     events: {
-      "keyup .org": "updateOrg"
+      "submit form": "updateOrg"
     },
 
-    updateOrg: $.debounce(450, function(ev) {
-      app.router.go("org", ev.target.value);
-    })
+    updateOrg: function(ev) {
+      app.router.go("org", this.$(".org").val());
+
+      return false;
+    }
   });
 
   return User;
