@@ -24,17 +24,21 @@ function (app, $, Backbone, Repo, User, Commit) {
     },
 
     index: function() {
+      // Reset to initial state.
       this.users.reset();
       this.repos.reset();
       this.commits.reset();
 
+      // Use the main layout.
       this.useLayout("main");
     },
 
     org: function(name) {
+      // Reset to initial state.
       this.repos.reset();
       this.commits.reset();
 
+      // Use the main layout.
       this.useLayout("main");
 
       // Set the organization.
@@ -45,9 +49,10 @@ function (app, $, Backbone, Repo, User, Commit) {
     },
 
     user: function(org, name) {
-      // Reset the data.
+      // Reset to initial state.
       this.commits.reset();
 
+      // Use the main layout.
       this.useLayout("main");
 
       // Set the organization.
@@ -61,6 +66,7 @@ function (app, $, Backbone, Repo, User, Commit) {
     },
 
     repo: function(org, user, name) {
+      // Use the main layout.
       this.useLayout("main");
 
       // Set the organization.
@@ -141,7 +147,7 @@ function (app, $, Backbone, Repo, User, Commit) {
     app.router = new Router();
 
     // Trigger the initial route and enable HTML5 History API support
-    Backbone.history.start({ pushState: true });
+    Backbone.history.start({ pushState: true, hashChange: true });
   });
 
   // All navigation that is relative should be passed through the navigate
