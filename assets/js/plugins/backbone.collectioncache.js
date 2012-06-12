@@ -46,7 +46,10 @@ Backbone.Collection.prototype.sync = function(method, collection, options) {
   // Wait until complete and if successful, cache!
   jqXHR.then(function() {
     cache[url] = _.toArray(arguments);
-    sessionStorage[url] = JSON.stringify([arguments[0], "success", {}]);
+
+    try {
+      sessionStorage[url] = JSON.stringify([arguments[0], "success", {}]);
+    } catch (ex) {}
   });
 
   // Emulate normal Sync.
