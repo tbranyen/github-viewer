@@ -104,9 +104,7 @@ function(app, Backbone, Commit) {
     },
 
     initialize: function() {
-      this.collection.on("reset", function() {
-        this.render();
-      }, this);
+      this.collection.on("reset", this.render, this);
     }
   });
 

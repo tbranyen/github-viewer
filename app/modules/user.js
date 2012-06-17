@@ -66,9 +66,7 @@ function(app, Backbone, Repo) {
     },
 
     initialize: function() {
-      this.model.on("change", function() {
-        this.render();
-      }, this);
+      this.model.on("change", this.render, this);
     }
   });
 

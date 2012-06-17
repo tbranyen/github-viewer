@@ -81,9 +81,7 @@ function(app, Backbone) {
     },
 
     initialize: function() {
-      this.collection.on("all", function() {
-        this.render();
-      }, this);
+      this.collection.on("all", this.render, this);
     }
   });
 

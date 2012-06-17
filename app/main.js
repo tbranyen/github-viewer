@@ -129,7 +129,7 @@ function (app, $, Backbone, Repo, User, Commit) {
       });
 
       // Insert into the DOM.
-      $("#main").html(this.layout.el);
+      $("#main").empty().append(this.layout.el);
 
       // Render the layout.
       this.layout.render();
