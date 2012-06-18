@@ -105,6 +105,10 @@ function(app, Backbone, Commit) {
 
     initialize: function() {
       this.collection.on("reset", this.render, this);
+
+      this.collection.on("fetch", function() {
+        this.$("ul").parent().html("<img src='/assets/img/spinner.gif'>");
+      }, this);
     }
   });
 

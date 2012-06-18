@@ -138,17 +138,12 @@ function (app, $, Backbone, Repo, User, Commit) {
     }
   });
 
-  // Treat the jQuery ready function as the entry point to the application.
-  // Inside this function, kick-off all initialization, everything up to this
-  // point should be definitions.
-  $(function() {
-    // Define your master router on the application namespace and trigger all
-    // navigation from this instance.
-    app.router = new Router();
+  // Define your master router on the application namespace and trigger all
+  // navigation from this instance.
+  app.router = new Router();
 
-    // Trigger the initial route and enable HTML5 History API support
-    Backbone.history.start({ pushState: true, hashChange: true });
-  });
+  // Trigger the initial route and enable HTML5 History API support
+  Backbone.history.start({ pushState: true, hashChange: true });
 
   // All navigation that is relative should be passed through the navigate
   // method, to be processed by the router. If the link has a `data-bypass`

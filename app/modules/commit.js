@@ -65,6 +65,7 @@ function(app, Backbone) {
     className: "table table-striped",
 
     render: function(manage) {
+      this.$el.children().remove();
       this.collection.each(function(commit) {
         this.insertView(new Commit.Views.Item({
           model: commit,
@@ -81,7 +82,11 @@ function(app, Backbone) {
     },
 
     initialize: function() {
-      this.collection.on("all", this.render, this);
+      this.collection.on("reset", this.render, this);
+
+      this.collection.on("fetch", function() {
+        this.$el.html("<img src='/assets/img/spinner.gif'>");
+      }, this);
     }
   });
 

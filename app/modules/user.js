@@ -91,8 +91,10 @@ function(app, Backbone, Repo) {
     },
 
     initialize: function() {
-      this.collection.bind("reset", function() {
-        this.render();
+      this.collection.on("reset", this.render, this);
+
+      this.collection.on("fetch", function() {
+        this.$("ul").parent().html("<img src='/assets/img/spinner-gray.gif'>");
       }, this);
     },
 

@@ -14,6 +14,16 @@ define([
 
 function($, _, Backbone) {
 
+  Backbone.Collection.prototype.fetch = function() {
+    var fetch = Backbone.Collection.prototype.fetch;
+
+    return function() {
+      this.trigger("fetch");
+
+      return fetch.apply(this, arguments);
+    };
+  }();
+
   // Create or attach to the global JavaScript Template cache.
   var JST = window.JST = window.JST || {}; 
 
