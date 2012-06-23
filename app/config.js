@@ -1,36 +1,36 @@
 // Set the require.js configuration for your application.
 require.config({
-  // Initialize the application with the main application file
+
+  // Initialize the application with the main application file.
   deps: ["main"],
 
   paths: {
-    // JavaScript folders
+    // JavaScript folders.
     libs: "../assets/js/libs",
     plugins: "../assets/js/plugins",
     vendor: "../assets/vendor",
 
-    // Libraries
+    // Libraries.
     jquery: "../assets/js/libs/jquery",
     lodash: "../assets/js/libs/lodash",
     backbone: "../assets/js/libs/backbone"
   },
 
   shim: {
+    // Backbone library depends on lodash and jQuery.
     backbone: {
       deps: ["lodash", "jquery"],
       exports: "Backbone"
     },
 
-    "plugins/backbone.layoutmanager": {
-      deps: ["backbone"]
-    },
+    // Backbone.LayoutManager depends on Backbone.
+    "plugins/backbone.layoutmanager": ["backbone"],
 
-    "vendor/bootstrap/js/bootstrap": {
-      deps: ["jquery"]
-    },
+    // Backbone.CollectionCache depends on Backbone.
+    "plugins/backbone.collectioncache": ["backbone"],
 
-    "plugins/backbone.collectioncache": {
-      deps: ["backbone", "lodash"]
-    }
+    // Twitter Bootstrap depends on jQuery.
+    "vendor/bootstrap/js/bootstrap": ["jquery"]
   }
+
 });
