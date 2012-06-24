@@ -111,7 +111,7 @@ function(app, Repo, User, Commit) {
           collection: this.commits
         })
       });
-    },
+    }
   });
 
   return Router;
