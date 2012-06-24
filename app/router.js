@@ -110,7 +110,7 @@ function(app, Repo, User, Commit) {
         ".commits": new Commit.Views.List({
           collection: this.commits
         })
-      });
+      }).render();
     }
   });
 
