@@ -59,7 +59,7 @@ function(app, Backbone, Commit) {
       var user = app.router.repos.user;
 
       // Immediately reflect the active state.
-      this.model.active = true;
+      app.active = this.model;
       this.render();
 
       // Easily create a URL.
@@ -69,7 +69,7 @@ function(app, Backbone, Commit) {
     },
 
     render: function(manage) {
-      if (this.model.active) {
+      if (app.active === this.model) {
         this.$el.siblings().removeClass("active");
         this.$el.addClass("active");
       }
@@ -88,7 +88,7 @@ function(app, Backbone, Commit) {
 
       this.collection.each(function(repo) {
         if (repo.get("name") === active) {
-          repo.active = true;
+          app.active = repo;
         }
 
         this.insertView("ul", new Repo.Views.Item({

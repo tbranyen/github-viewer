@@ -20,19 +20,13 @@ function(app, Repo, User, Commit) {
     },
 
     index: function() {
-      // Reset to initial state.
-      this.users.reset();
-      this.repos.reset();
-      this.commits.reset();
-
       // Use the main layout.
       app.useLayout("main");
     },
 
     org: function(name) {
       // Reset to initial state.
-      this.repos.reset();
-      this.commits.reset();
+      this.reset();
 
       // Use the main layout.
       app.useLayout("main");
@@ -46,7 +40,7 @@ function(app, Repo, User, Commit) {
 
     user: function(org, name) {
       // Reset to initial state.
-      this.commits.reset();
+      this.reset();
 
       // Use the main layout.
       app.useLayout("main");
@@ -84,6 +78,17 @@ function(app, Repo, User, Commit) {
       return this.navigate(_.toArray(arguments).join("/"), true);
     },
 
+    reset: function() {
+      // Reset collections to initial state.
+      this.users.reset();
+      this.repos.reset();
+      this.commits.reset();
+
+      // Reset active model.
+      app.active = false;
+      this.commits.repo = false;
+    },
+
     initialize: function() {
       // Set up the users.
       this.users = new User.Collection();
@@ -92,11 +97,8 @@ function(app, Repo, User, Commit) {
       // Set up the commits.
       this.commits = new Commit.Collection();
 
-      // Start with the default layout.
-      app.useLayout("main");
-
-      // Set all the views.
-      app.layout.setViews({
+      // Use main layout and set Views.
+      app.useLayout("main").setViews({
         ".users": new User.Views.List({
           collection: this.users
         }),
