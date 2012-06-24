@@ -21,7 +21,7 @@ function(app, Repo, User, Commit) {
 
     index: function() {
       // Use the main layout.
-      app.useLayout("main");
+      app.useLayout("main").render();
     },
 
     org: function(name) {
@@ -80,9 +80,17 @@ function(app, Repo, User, Commit) {
 
     reset: function() {
       // Reset collections to initial state.
-      this.users.reset();
-      this.repos.reset();
-      this.commits.reset();
+      if (this.users.length) {
+        this.users.reset();
+      }
+
+      if (this.repos.length) {
+        this.repos.reset();
+      }
+
+      if (this.commits.length) {
+        this.commits.reset();
+      }
 
       // Reset active model.
       app.active = false;
@@ -98,7 +106,9 @@ function(app, Repo, User, Commit) {
       this.commits = new Commit.Collection();
 
       // Use main layout and set Views.
-      app.useLayout("main").setViews({
+      app.useLayout("main");
+      
+      app.layout.setViews({
         ".users": new User.Views.List({
           collection: this.users
         }),
@@ -110,7 +120,7 @@ function(app, Repo, User, Commit) {
         ".commits": new Commit.Views.List({
           collection: this.commits
         })
-      }).render();
+      });
     }
   });
 
