@@ -35,6 +35,8 @@ function($, _, Backbone) {
 
   // Configure LayoutManager with Backbone Boilerplate defaults.
   Backbone.LayoutManager.configure({
+    manage: true,
+
     paths: {
       layout: "app/templates/layouts/",
       template: "app/templates/"

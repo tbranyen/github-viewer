@@ -64,7 +64,7 @@ function(app, Backbone) {
 
     className: "table table-striped",
 
-    render: function(manage) {
+    beforeRender: function() {
       this.$el.children().remove();
       this.collection.each(function(commit) {
         this.insertView(new Commit.Views.Item({
@@ -73,8 +73,6 @@ function(app, Backbone) {
           user: this.collection.user
         }));
       }, this);
-
-      return manage(this).render();
     },
 
     cleanup: function() {

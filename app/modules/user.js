@@ -77,17 +77,17 @@ function(app, Backbone, Repo) {
       return { collection: this.collection };
     },
 
-    render: function(manage) {
+    beforeRender: function() {
       this.collection.each(function(user) {
         this.insertView("ul", new User.Views.Item({
           model: user
         }));
       }, this);
+    },
 
-      return manage(this).render().then(function(el) {
-        // Only re-focus if invalid
-        this.$("input.invalid").focus();
-      });
+    afterRender: function() {
+      // Only re-focus if invalid
+      this.$("input.invalid").focus();
     },
 
     initialize: function() {

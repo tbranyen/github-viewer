@@ -68,13 +68,11 @@ function(app, Backbone, Commit) {
       return false;
     },
 
-    render: function(manage) {
+    beforeRender: function() {
       if (app.active === this.model) {
         this.$el.siblings().removeClass("active");
         this.$el.addClass("active");
       }
-
-      return manage(this).render();
     }
   });
 
@@ -83,7 +81,13 @@ function(app, Backbone, Commit) {
 
     className: "repos-wrapper",
 
-    render: function(manage) {
+    serialize: function() {
+      return {
+        count: this.collection.length 
+      };
+    },
+
+    beforeRender: function() {
       var active = app.router.commits.repo;
 
       this.collection.each(function(repo) {
@@ -95,8 +99,6 @@ function(app, Backbone, Commit) {
           model: repo
         }));
       }, this);
-
-      return manage(this).render({ count: this.collection.length });
     },
 
     cleanup: function() {
