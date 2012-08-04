@@ -20,6 +20,8 @@ function(app, Repo, User, Commit) {
     },
 
     index: function() {
+      this.reset();
+
       // Use the main layout.
       app.useLayout("main").render();
     },
@@ -56,6 +58,9 @@ function(app, Repo, User, Commit) {
     },
 
     repo: function(org, user, name) {
+      // Reset to initial state.
+      this.reset();
+
       // Use the main layout.
       app.useLayout("main").render();
 

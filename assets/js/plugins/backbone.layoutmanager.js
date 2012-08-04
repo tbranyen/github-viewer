@@ -444,7 +444,7 @@ var LayoutManager = Backbone.View.extend({
       return this._cache[path] = contents;
     }
 
-    // If template is not in the cache, return undefined.
+    // If the template is not in the cache, return undefined.
   },
 
   // This static method allows for global configuration of LayoutManager.
@@ -496,6 +496,9 @@ var LayoutManager = Backbone.View.extend({
 
     // Always use this render function when using LayoutManager.
     view._render = function(manage) {
+      // Maintain a reference to the parent element.
+      var parentRender;// = this.__manager__.parent;
+
       // If a beforeRender function is defined, call it.
       if (_.isFunction(this.beforeRender)) {
         this.beforeRender.call(this, this);
@@ -506,13 +509,33 @@ var LayoutManager = Backbone.View.extend({
 
       // Render!
       return manage(this).render().then(function() {
-        // If an afterRender function is defined, call it.
-        if (_.isFunction(this.afterRender)) {
-          this.afterRender.call(this, this);
+        // Shorthand the View's parent.
+        var parent = this.__manager__.parent;
+        // Used for when inside resolved deferred callbacks.
+        var view = this;
+
+        // This can be called immediately if the conditions allow, or it will
+        // be deferred until a parent has finished rendering.
+        var done = function() {
+          // If an afterRender function is defined, call it.
+          if (_.isFunction(this.afterRender)) {
+            this.afterRender.call(this, this);
+          }
+
+          // Always emit an afterRender event.
+          this.trigger("afterRender", this);
+        };
+
+        // If the parent is the top most Layout or no handler is present on the
+        // parent's manager property, immediately invoke the afterRender.
+        if (!parent.__manager__.parent || !parent.__manager__.handler) {
+          return done.call(this);
         }
 
-        // Always emit an afterRender event.
-        this.trigger("afterRender", this);
+        // Once the parent's handler has resolved, call afterRender.
+        parent.__manager__.handler.then(function() {
+          done.call(view);
+        });
       });
     };
 
@@ -563,16 +586,16 @@ var LayoutManager = Backbone.View.extend({
         // keep.
         if (_.isArray(manager.parent.views[manager.selector])) {
           // Remove directly from the Array reference.
-          manager.parent.getView(function(view, i) {
+          return manager.parent.getView(function(view, i) {
             // If the selectors match, splice off this View.
             if (view.__manager__.selector === manager.selector) {
               manager.parent.views[manager.selector].splice(i, 1);
             }
           });
-        // Otherwise delete the parent selector.
-        } else {
-          delete manager.parent[manager.selector];
         }
+
+        // Otherwise delete the parent selector.
+        delete manager.parent[manager.selector];
       }
     });
   }
