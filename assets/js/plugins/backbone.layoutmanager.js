@@ -1,5 +1,5 @@
 /*!
- * backbone.layoutmanager.js v0.6.5
+ * backbone.layoutmanager.js v0.6.6
  * Copyright 2012, Tim Branyen (@tbranyen)
  * backbone.layoutmanager.js may be freely distributed under the MIT license.
  */
@@ -128,11 +128,6 @@ var LayoutManager = Backbone.View.extend({
     // Instance overrides take precedence, fallback to prototype options.
     options = view._options();
 
-    // Set up the View, if it's not already managed.
-    if (!view.__manager__) {
-      LayoutManager.setupView(view, options);
-    }
-
     // Custom template render function.
     view.render = function(done) {
       var viewDeferred = options.deferred();
@@ -173,7 +168,7 @@ var LayoutManager = Backbone.View.extend({
       }
 
       // Remove subViews without the `keep` flag set to `true`.
-      view._removeView();
+      view._removeViews();
 
       // Call the original render method.
       LayoutManager.prototype.render.call(view).then(renderCallback);
@@ -243,24 +238,26 @@ var LayoutManager = Backbone.View.extend({
   // This function returns a promise that can be chained to determine
   // once all subviews and main view have been rendered into the view.el.
   render: function(done) {
+    var promise;
     var root = this;
     var options = this._options();
     var viewDeferred = options.deferred();
+    var manager = this.__manager__;
 
     // Ensure duplicate renders don't override.
-    if (this.__manager__.renderDeferred) {
+    if (manager.renderDeferred) {
       // Set the most recent done callback.
-      this.__manager__.callback = done;
+      manager.callback = done;
 
       // Return the deferred.
-      return this.__manager__.renderDeferred;
+      return manager.renderDeferred;
     }
+
+    // Disable the ability for any new sub-views to be added.
+    manager.renderDeferred = viewDeferred;
     
     // Wait until this View has rendered before dealing with nested Views.
     this._render(LayoutManager._viewRender).fetch.then(function() {
-      // Disable the ability for any new sub-views to be added.
-      root.__manager__.renderDeferred = viewDeferred;
-
       // Create a list of promises to wait on until rendering is done. Since
       // this method will run on all children as well, its sufficient for a
       // full hierarchical. 
@@ -312,7 +309,7 @@ var LayoutManager = Backbone.View.extend({
 
     // Return a promise that resolves once all immediate subViews have
     // rendered.
-    return viewDeferred.then(function() {
+    promise = viewDeferred.then(function() {
       // Only call the done function if a callback was provided.
       if (_.isFunction(done)) {
         done.call(root, root.el);
@@ -338,11 +335,15 @@ var LayoutManager = Backbone.View.extend({
       // Remove the rendered deferred.
       delete root.__manager__.renderDeferred;
     });
+
+    // Proxy the View's properties to this promise for chaining purposes.
+    return _.defaults(promise, root);
   },
 
   // Ensure the cleanup function is called whenever remove is called.
   remove: function() {
-    LayoutManager.cleanViews(this);
+    // Force remove itself from it's parent.
+    LayoutManager._removeView(this, true);
 
     // Call the original remove function.
     return this._remove.apply(this, arguments);
@@ -525,6 +526,9 @@ var LayoutManager = Backbone.View.extend({
       _options: LayoutManager.prototype._options,
 
       // Add the ability to remove all Views.
+      _removeViews: LayoutManager._removeViews,
+
+      // Add the ability to remove itself.
       _removeView: LayoutManager._removeView
     });
 
@@ -563,7 +567,7 @@ var LayoutManager = Backbone.View.extend({
       var afterRender = this._options().afterRender;
 
       // Ensure all subViews are properly scrubbed.
-      this._removeView();
+      this._removeViews();
 
       // If a beforeRender function is defined, call it.
       if (_.isFunction(beforeRender)) {
@@ -606,9 +610,10 @@ var LayoutManager = Backbone.View.extend({
         var findRootParent = function(view) {
           var manager = view.__manager__;
 
-          // If a parent exists, recurse.
-          if (manager.parent && !manager.hasRendered) {
-            return findRootParent(manager.parent);
+          // If a parent exists and the parent has not rendered, return that
+          // parent.
+          if (manager.parent && !manager.parent.__manager__.hasRendered) {
+            return manager.parent;
           }
 
           // This is the most root parent.
@@ -622,11 +627,13 @@ var LayoutManager = Backbone.View.extend({
 
         // If this view has already rendered, simply call the callback.
         if (parent.__manager__.hasRendered) {
-          return options.when([manager.viewDeferred, parent.__manager__.viewDeferred]).then(function() {
+          return options.when([manager.viewDeferred,
+            parent.__manager__.viewDeferred]).then(function() {
             done.call(view);
           });
         }
 
+        // Find the parent highest in the chain that has not yet rendered.
         parent = findRootParent(view);
 
         // Once the parent has finished rendering, trickle down and
@@ -671,38 +678,49 @@ var LayoutManager = Backbone.View.extend({
   },
 
   // Remove all subViews.
-  _removeView: function(root) {
+  _removeViews: function(root) {
     // Allow removeView to be called on instances.
     root = root || this;
 
     // Iterate over all of the view's subViews.
     root.getViews().each(function(view) {
-      // Shorthand the manager for easier access.
-      var manager = view.__manager__;
-      // Test for keep.
-      var keep = _.isBoolean(view.keep) ? view.keep : view.options.keep;
-
-      // Only remove views that do not have `keep` attribute set.
-      if (!keep && manager.append === true && manager.hasRendered) {
-        // Remove the View completely.
-        view.remove();
-
-        // If this is an array of items remove items that are not marked to
-        // keep.
-        if (_.isArray(manager.parent.views[manager.selector])) {
-          // Remove directly from the Array reference.
-          return manager.parent.getView(function(view, i) {
-            // If the selectors match, splice off this View.
-            if (view.__manager__.selector === manager.selector) {
-              manager.parent.views[manager.selector].splice(i, 1);
-            }
-          });
-        }
-
-        // Otherwise delete the parent selector.
-        delete manager.parent[manager.selector];
-      }
+      LayoutManager._removeView(view, true);
     });
+  },
+
+  // Remove a single subView.
+  _removeView: function(view, force) {
+    // Shorthand the manager for easier access.
+    var manager = view.__manager__;
+    // Test for keep.
+    var keep = _.isBoolean(view.keep) ? view.keep : view.options.keep;
+    // Only allow force if View contains a parent.
+    force = force && manager.parent;
+
+    // Ensure that cleanup is called correctly when `_removeView` is triggered.
+    LayoutManager.cleanViews(view);
+
+    // Only remove views that do not have `keep` attribute set, unless the
+    // force flag is set.
+    if (!keep && (manager.append === true || force) && manager.hasRendered) {
+      // Remove the View completely.
+      view.$el.remove();
+
+      // If this is an array of items remove items that are not marked to
+      // keep.
+      if (_.isArray(manager.parent.views[manager.selector])) {
+        // Remove directly from the Array reference.
+        return manager.parent.getView(function(view, i) {
+          // If the managers match, splice off this View.
+          if (view.__manager__ === manager) {
+            manager.parent.views[manager.selector].splice(i, 1);
+          }
+        });
+      }
+
+      // Otherwise delete the parent selector.
+      delete manager.parent.views[manager.selector];
+    }
   }
 });
 

@@ -45,13 +45,15 @@ function($, _, Backbone) {
     fetch: function(path) {
       path = path + ".html";
 
-      if (!JST[path]) {
-        $.ajax({ url: "/" + path, async: false }).then(function(contents) {
-          JST[path] = _.template(contents);
-        });
+      var done = this.async();
+
+      if (JST[path]) {
+        return done(JST[path]);
       } 
       
-      return JST[path];
+      $.get(app.root + path, function(contents) {
+        done(JST[path] = _.template(contents));
+      });
     }
   });
 

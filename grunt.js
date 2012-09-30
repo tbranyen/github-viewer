@@ -65,6 +65,13 @@ module.exports = function(grunt) {
       ]
     },
 
+    styles: {
+      "dist/debug/index.css": {
+        src: "assets/css/index.css",
+        paths: ["assets/css"]
+      }
+    },
+
     // Takes the built require.js file and minifies it for filesize benefits.
     min: {
       "dist/release/require.js": [

@@ -23,7 +23,7 @@ function(app, Repo, User, Commit) {
       this.reset();
 
       // Use the main layout.
-      app.useLayout("main").render();
+      app.useLayout("main");
     },
 
     org: function(name) {
@@ -31,7 +31,7 @@ function(app, Repo, User, Commit) {
       this.reset();
 
       // Use the main layout.
-      app.useLayout("main").render();
+      app.useLayout("main");
 
       // Set the organization.
       this.users.org = name;

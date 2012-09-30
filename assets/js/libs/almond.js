@@ -1,5 +1,5 @@
 /**
- * almond 0.1.3 Copyright (c) 2011, The Dojo Foundation All Rights Reserved.
+ * almond 0.1.4 Copyright (c) 2011, The Dojo Foundation All Rights Reserved.
  * Available via the MIT or new BSD license.
  * see: http://github.com/jrburke/almond for details
  */
@@ -61,7 +61,7 @@ var requirejs, require, define;
                             //no path mapping for a path starting with '..'.
                             //This can still fail, but catches the most reasonable
                             //uses of ..
-                            return true;
+                            break;
                         } else if (i > 0) {
                             name.splice(i - 1, 2);
                             i -= 2;
