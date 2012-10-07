@@ -7,7 +7,6 @@ require([
 ],
 
 function(app, Router) {
-  var lol;
 
   // Define your master router on the application namespace and trigger all
   // navigation from this instance.

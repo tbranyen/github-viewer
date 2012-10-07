@@ -83,14 +83,14 @@ function(app, Backbone, Commit) {
 
     serialize: function() {
       return {
-        count: this.collection.length 
+        count: this.options.repos.length 
       };
     },
 
     beforeRender: function() {
-      var active = app.router.commits.repo;
+      var active = this.options.commits.repo;
 
-      this.collection.each(function(repo) {
+      this.options.repos.each(function(repo) {
         if (repo.get("name") === active) {
           app.active = repo;
         }
@@ -102,13 +102,13 @@ function(app, Backbone, Commit) {
     },
 
     cleanup: function() {
-      this.collection.off(null, null, this);
+      this.options.repos.off(null, null, this);
     },
 
     initialize: function() {
-      this.collection.on("reset", this.render, this);
+      this.options.repos.on("reset", this.render, this);
 
-      this.collection.on("fetch", function() {
+      this.options.repos.on("fetch", function() {
         this.$("ul").parent().html("<img src='/assets/img/spinner.gif'>");
       }, this);
     }

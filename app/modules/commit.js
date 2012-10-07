@@ -66,23 +66,24 @@ function(app, Backbone) {
 
     beforeRender: function() {
       this.$el.children().remove();
-      this.collection.each(function(commit) {
+
+      this.options.commits.each(function(commit) {
         this.insertView(new Commit.Views.Item({
           model: commit,
-          repo: this.collection.repo,
-          user: this.collection.user
+          repo: this.options.commits.repo,
+          user: this.options.commits.user
         }));
       }, this);
     },
 
     cleanup: function() {
-      this.collection.off(null, null, this);
+      this.options.commits.off(null, null, this);
     },
 
     initialize: function() {
-      this.collection.on("reset", this.render, this);
+      this.options.commits.on("reset", this.render, this);
 
-      this.collection.on("fetch", function() {
+      this.options.commits.on("fetch", function() {
         this.$el.html("<img src='/assets/img/spinner.gif'>");
       }, this);
     }

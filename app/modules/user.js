@@ -45,7 +45,7 @@ function(app, Backbone, Repo) {
 
     tagName: "li",
 
-    serialize: function() {
+    data: function() {
       return { model: this.model };
     },
 
@@ -73,12 +73,16 @@ function(app, Backbone, Repo) {
   User.Views.List = Backbone.View.extend({
     template: "user/list",
 
-    serialize: function() {
-      return { collection: this.collection };
+    data: function() {
+      return { collection: this.options.users };
+    },
+
+    cleanup: function() {
+      this.options.users.off(null, null, this);
     },
 
     beforeRender: function() {
-      this.collection.each(function(user) {
+      this.options.users.each(function(user) {
         this.insertView("ul", new User.Views.Item({
           model: user
         }));
@@ -91,9 +95,9 @@ function(app, Backbone, Repo) {
     },
 
     initialize: function() {
-      this.collection.on("reset", this.render, this);
+      this.options.users.on("reset", this.render, this);
 
-      this.collection.on("fetch", function() {
+      this.options.users.on("fetch", function() {
         this.$("ul").parent().html("<img src='/assets/img/spinner-gray.gif'>");
       }, this);
     },

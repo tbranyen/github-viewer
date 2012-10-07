@@ -20,18 +20,13 @@ function(app, Repo, User, Commit) {
     },
 
     index: function() {
+      // Reset the state and render.
       this.reset();
-
-      // Use the main layout.
-      app.useLayout("main");
     },
 
     org: function(name) {
-      // Reset to initial state.
+      // Reset the state and render.
       this.reset();
-
-      // Use the main layout.
-      app.useLayout("main");
 
       // Set the organization.
       this.users.org = name;
@@ -41,11 +36,8 @@ function(app, Repo, User, Commit) {
     },
 
     user: function(org, name) {
-      // Reset to initial state.
+      // Reset the state and render.
       this.reset();
-
-      // Use the main layout.
-      app.useLayout("main").render();
 
       // Set the organization.
       this.users.org = org;
@@ -58,11 +50,8 @@ function(app, Repo, User, Commit) {
     },
 
     repo: function(org, user, name) {
-      // Reset to initial state.
+      // Reset the state and render.
       this.reset();
-
-      // Use the main layout.
-      app.useLayout("main").render();
 
       // Set the organization.
       this.users.org = org;
@@ -103,29 +92,26 @@ function(app, Repo, User, Commit) {
     },
 
     initialize: function() {
-      // Set up the users.
-      this.users = new User.Collection();
-      // Set the repos.
-      this.repos = new Repo.Collection();
-      // Set up the commits.
-      this.commits = new Commit.Collection();
+      var collections = {
+        // Set up the users.
+        users: new User.Collection(),
+
+        // Set the repos.
+        repos: new Repo.Collection(),
+
+        // Set up the commits.
+        commits: new Commit.Collection()
+      };
+
+      // Ensure the router has references to the collections.
+      _.extend(this, collections);
 
       // Use main layout and set Views.
-      app.useLayout("main");
-      
-      app.layout.setViews({
-        ".users": new User.Views.List({
-          collection: this.users
-        }),
-
-        ".repos": new Repo.Views.List({
-          collection: this.repos
-        }),
-
-        ".commits": new Commit.Views.List({
-          collection: this.commits
-        })
-      });
+      app.useLayout().setViews({
+        ".users": new User.Views.List(collections),
+        ".repos": new Repo.Views.List(collections),
+        ".commits": new Commit.Views.List(collections)
+      }).render();
     }
   });
 

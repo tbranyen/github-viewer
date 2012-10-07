@@ -35,22 +35,24 @@ function($, _, Backbone) {
 
   // Configure LayoutManager with Backbone Boilerplate defaults.
   Backbone.LayoutManager.configure({
+    // Allow LayoutManager to augment Backbone.View.prototype.
     manage: true,
 
-    paths: {
-      layout: "app/templates/layouts/",
-      template: "app/templates/"
-    },
+    prefix: "app/templates/",
 
     fetch: function(path) {
+      // Concatenate the file extension.
       path = path + ".html";
 
+      // If cached, use the compiled template.
+      if (JST[path]) {
+        return JST[path];
+      }
+
+      // Put fetch into `async-mode`.
       var done = this.async();
 
-      if (JST[path]) {
-        return done(JST[path]);
-      } 
-      
+      // Seek out the template asynchronously.
       $.get(app.root + path, function(contents) {
         done(JST[path] = _.template(contents));
       });
@@ -64,36 +66,15 @@ function($, _, Backbone) {
       return _.extend({ Views: {} }, additionalProps);
     },
 
-    // Helper for specific layouts.
-    useLayout: function(name) {
-      // If already using this Layout, then don't re-inject into the DOM.
-      if (this.layout && this.layout.options.template === name) {
-        return this.layout;
-      }
+    // Helper for using layouts.
+    useLayout: function(name, options) {
+      // Create a new Layout with options.
+      var layout = new Backbone.Layout(_.extend({
+        el: "#main"
+      }, options));
 
-      // If a layout already exists, remove it from the DOM.
-      if (this.layout) {
-        this.layout.remove();
-      }
-
-      // Create a new Layout.
-      var layout = new Backbone.Layout({
-        template: name,
-        className: "layout " + name,
-        id: "layout"
-      });
-
-      // Insert into the DOM.
-      $("#main").empty().append(layout.el);
-
-      // Render the layout.
-      layout.render();
-
-      // Cache the reference on the Router.
-      this.layout = layout;
-
-      // Return the reference, for later usage.
-      return layout;
+      // Cache the refererence.
+      return this.layout = layout;
     }
   }, Backbone.Events);
 
