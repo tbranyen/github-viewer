@@ -45,7 +45,7 @@ function(app, Backbone, Commit) {
 
     tagName: "li",
 
-    serialize: function() {
+    data: function() {
       return { model: this.model };
     },
 
@@ -81,7 +81,7 @@ function(app, Backbone, Commit) {
 
     className: "repos-wrapper",
 
-    serialize: function() {
+    data: function() {
       return {
         count: this.options.repos.length 
       };

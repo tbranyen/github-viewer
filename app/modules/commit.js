@@ -50,7 +50,7 @@ function(app, Backbone) {
 
     tagName: "tr",
 
-    serialize: function() {
+    data: function() {
       return {
         model: this.model,
         repo: this.options.repo,
