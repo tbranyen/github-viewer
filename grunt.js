@@ -58,17 +58,14 @@ module.exports = function(grunt) {
     // also minifies all the CSS as well.  This is named index.css, because we
     // only want to load one stylesheet in index.html.
     mincss: {
-      "dist/release/index.css": [
-        "assets/vendor/bootstrap/css/bootstrap.css",
-        "assets/css/style.css",
-        "assets/css/production-fixes.css"
-      ]
+      "dist/release/index.css": ["dist/debug/index.css"]
     },
 
     styles: {
       "dist/debug/index.css": {
         src: "assets/css/index.css",
-        paths: ["assets/css"]
+        paths: ["assets/css"],
+        additional: ["assets/css/production-fixes.css"]
       }
     },
 
@@ -155,19 +152,17 @@ module.exports = function(grunt) {
 
   });
 
-  // The default task will remove all contents inside the dist/ folder, lint
-  // all your code, precompile all the underscore templates into
+  // The debug task will remove all contents inside the dist/ folder, lint all
+  // your code, precompile all the underscore templates into
   // dist/debug/templates.js, compile all the application code into
   // dist/debug/require.js, and then concatenate the require/define shim
-  // almond.js and dist/debug/templates.js into the require.js file.
-  grunt.registerTask("default", "clean lint jst requirejs concat");
-
-  // The debug task is simply an alias to default to remain consistent with
-  // debug/release.
-  grunt.registerTask("debug", "default");
+  // almond.js and dist/debug/templates.js into the require.js file.  All the
+  // styles from the /assets/index.css file will be compiled into
+  // dist/debug/index.css.
+  grunt.registerTask("debug", "clean lint jst requirejs concat styles");
 
   // The release task will run the debug tasks and then minify the
   // dist/debug/require.js file and CSS files.
-  grunt.registerTask("release", "default min mincss");
+  grunt.registerTask("release", "debug min mincss");
 
 };
