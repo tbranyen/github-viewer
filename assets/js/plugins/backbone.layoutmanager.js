@@ -112,7 +112,7 @@ var LayoutManager = Backbone.View.extend({
     // If the View has not been properly set up, throw an Error message
     // indicating that the View needs `manage: true` set.
     if (!manager) {
-      throw new Error("Please set `manage` on the View with selector '" +
+      throw new Error("Please set `View#manage` property with selector '" +
         name + "' to `true`.");
     }
 
@@ -138,9 +138,7 @@ var LayoutManager = Backbone.View.extend({
     }
 
     // Ensure this.views[name] is an array and push this View to the end.
-    if (_.indexOf(existing, view) < 0) {
-      this.views[name] = aConcat.call([], existing || [], view);
-    }
+    this.views[name] = aConcat.call([], existing || [], view);
 
     // Put the view into `append` mode.
     manager.append = true;
@@ -429,12 +427,12 @@ var LayoutManager = Backbone.View.extend({
     // Only allow force if View is contained into a parent.
     force = manager.parent ? force : false;
 
-    // Clean out the events.
-    LayoutManager.cleanViews(view);
-
     // Only remove views that do not have `keep` attribute set, unless the
     // View is in `append` mode and the force flag is set.
     if (!keep && (manager.append === true || force)) {
+      // Clean out the events.
+      LayoutManager.cleanViews(view);
+
       // Remove the View completely.
       view.$el.remove();
 
@@ -462,13 +460,6 @@ var LayoutManager = Backbone.View.extend({
     _.each(aConcat.call([], views), function(view) {
       // Remove all custom events attached to this View.
       view.unbind();
-
-      // Ensure all nested views are cleaned as well.
-      if (view.views) {
-        _.each(view.views, function(view) {
-          LayoutManager.cleanViews(view);
-        });
-      }
 
       // Automatically unbind `model`.
       if (view.model instanceof Backbone.Model) {
@@ -518,7 +509,7 @@ var LayoutManager = Backbone.View.extend({
       return;
     }
 
-    var views, viewOptions;
+    var views, declaredViews, viewOptions;
     var proto = Backbone.LayoutManager.prototype;
     var viewOverrides = _.pick(view, keys);
 
@@ -613,7 +604,14 @@ var LayoutManager = Backbone.View.extend({
 
     // Set the internal views, only if selectors have been provided.
     if (_.keys(views).length) {
-      view.setViews(views);
+      // Keep original object declared containing Views.
+      declaredViews = views;
+
+      // Reset the property to avoid duplication or overwritting.
+      view.views = {};
+
+      // Set the declared Views.
+      view.setViews(declaredViews);
     }
 
     // Ensure the template is mapped over.
