@@ -21,6 +21,7 @@ function(app, Backbone, Repo) {
     cache: true,
 
     parse: function(obj) {
+      console.log(obj);
       // Safety check ensuring only valid data is used
       if (obj.data.message !== "Not Found") {
         this.status = "valid";
@@ -30,7 +31,7 @@ function(app, Backbone, Repo) {
 
       this.status = "invalid";
 
-      return this.models;
+      return obj;
     },
 
     initialize: function(models, options) {
@@ -59,10 +60,6 @@ function(app, Backbone, Repo) {
       var name = model.get("login");
 
       app.router.go("org", org, "user", name);
-    },
-
-    cleanup: function() {
-      this.model.off(null, null, this);
     },
 
     initialize: function() {
