@@ -1,6 +1,6 @@
 // This is the main application configuration file.  It is a Grunt
 // configuration file, which you can learn more about here:
-// https://github.com/cowboy/grunt/blob/master/docs/configuring.md
+// https://github.com/gruntjs/grunt/blob/master/docs/getting_started.md
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -12,7 +12,7 @@ module.exports = function(grunt) {
     // The lint task will run the build configuration and the application
     // JavaScript through JSHint and report any errors.  You can change the
     // options for this task, by reading this:
-    // https://github.com/cowboy/grunt/blob/master/docs/task_lint.md
+    // https://github.com/gruntjs/grunt/blob/master/docs/task_lint.md
     lint: {
       files: [
         "build/config.js", "app/**/*.js"
@@ -31,7 +31,7 @@ module.exports = function(grunt) {
     // The jst task compiles all application templates into JavaScript
     // functions with the underscore.js template function from 1.2.4.  You can
     // change the namespace and the template options, by reading this:
-    // https://github.com/gruntjs/grunt-contrib/blob/master/docs/jst.md
+    // https://github.com/gruntjs/grunt-contrib-jst/blob/master/docs/options.md
     //
     // The concat task depends on this file to exist, so if you decide to
     // remove this, ensure concat is updated accordingly.
