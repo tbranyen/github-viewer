@@ -4,7 +4,7 @@
       <strong class="label">Enter an organization name:</strong>
 
       <div class="input-append">
-        <input type="text" class="search-query org <%= collection.status %>"
+        <input type="text" class="org <%= collection.status || "" %>"
         name="org" value="<%= collection.org || "matchbox" %>"><button
           class="btn">Search</button>
       </div>
