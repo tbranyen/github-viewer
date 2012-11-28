@@ -1,15 +1,12 @@
 define([
-  // Global application context.
+  // Application.
   "app",
 
-  // Third-party libraries.
-  "backbone",
-
-  // Modules
+  // Modules.
   "modules/repo"
 ],
 
-function(app, Backbone, Repo) {
+function(app, Repo) {
 
   var User = app.module();
 
@@ -21,8 +18,7 @@ function(app, Backbone, Repo) {
     cache: true,
 
     parse: function(obj) {
-      console.log(obj);
-      // Safety check ensuring only valid data is used
+      // Safety check ensuring only valid data is used.
       if (obj.data.message !== "Not Found") {
         this.status = "valid";
 
@@ -87,7 +83,7 @@ function(app, Backbone, Repo) {
     },
 
     afterRender: function() {
-      // Only re-focus if invalid
+      // Only re-focus if invalid.
       this.$("input.invalid").focus();
     },
 
@@ -95,7 +91,7 @@ function(app, Backbone, Repo) {
       this.options.users.on("reset", this.render, this);
 
       this.options.users.on("fetch", function() {
-        this.$("ul").parent().html("<img src='/assets/img/spinner-gray.gif'>");
+        this.$("ul").parent().html("<img src='/app/img/spinner-gray.gif'>");
       }, this);
     },
 
@@ -110,6 +106,7 @@ function(app, Backbone, Repo) {
     }
   });
 
+  // Required, return the module for AMD compliance.
   return User;
 
 });

@@ -1,12 +1,9 @@
 define([
-  // Global application context.
-  "app",
-
-  // Third-party libraries.
-  "backbone"
+  // Application.
+  "app"
 ],
 
-function(app, Backbone) {
+function(app) {
 
   var Commit = app.module();
 
@@ -29,7 +26,7 @@ function(app, Backbone) {
     },
 
     parse: function(obj) {
-      // Safety check ensuring only valid data is used
+      // Safety check ensuring only valid data is used.
       if (obj.data.message !== "Not Found") {
         return obj.data;
       }
@@ -84,12 +81,12 @@ function(app, Backbone) {
       this.options.commits.on("reset", this.render, this);
 
       this.options.commits.on("fetch", function() {
-        this.$el.html("<img src='/assets/img/spinner.gif'>");
+        this.$el.html("<img src='/app/img/spinner.gif'>");
       }, this);
     }
   });
 
-  // Required, return the module for AMD compliance
+  // Required, return the module for AMD compliance.
   return Commit;
 
 });

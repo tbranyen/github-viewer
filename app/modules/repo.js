@@ -1,15 +1,12 @@
 define([
-  // Global application context.
+  // Application.
   "app",
 
-  // Libs
-  "backbone",
-
-  // Modules
+  // Modules.
   "modules/commit"
 ],
 
-function(app, Backbone, Commit) {
+function(app, Commit) {
 
   var Repo = app.module();
 
@@ -21,7 +18,7 @@ function(app, Backbone, Commit) {
     cache: true,
 
     parse: function(obj) {
-      // Safety check ensuring only valid data is used
+      // Safety check ensuring only valid data is used.
       if (obj.data.message !== "Not Found") {
         return obj.data;
       }
@@ -109,11 +106,12 @@ function(app, Backbone, Commit) {
       this.options.repos.on("reset", this.render, this);
 
       this.options.repos.on("fetch", function() {
-        this.$("ul").parent().html("<img src='/assets/img/spinner.gif'>");
+        this.$("ul").parent().html("<img src='/app/img/spinner.gif'>");
       }, this);
     }
   });
 
+  // Required, return the module for AMD compliance.
   return Repo;
 
 });

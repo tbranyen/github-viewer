@@ -12,6 +12,30 @@ function(app, Repo, User, Commit) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
+    initialize: function() {
+      // TODO Clean this up...
+      var collections = {
+        // Set up the users.
+        users: new User.Collection(),
+
+        // Set the repos.
+        repos: new Repo.Collection(),
+
+        // Set up the commits.
+        commits: new Commit.Collection()
+      };
+
+      // Ensure the router has references to the collections.
+      _.extend(this, collections);
+
+      // Use main layout and set Views.
+      app.useLayout("main-layout").setViews({
+        ".users": new User.Views.List(collections),
+        ".repos": new Repo.Views.List(collections),
+        ".commits": new Commit.Views.List(collections)
+      }).render();
+    },
+
     routes: {
       "": "index",
       "org/:name": "org",
@@ -44,7 +68,7 @@ function(app, Repo, User, Commit) {
       // Set the user name.
       this.repos.user = name;
 
-      // Fetch the data
+      // Fetch the data.
       this.users.fetch();
       this.repos.fetch();
     },
@@ -57,11 +81,11 @@ function(app, Repo, User, Commit) {
       this.users.org = org;
       // Set the user name.
       this.repos.user = user;
-      // Set the repo name
+      // Set the repo name.
       this.commits.user = user;
       this.commits.repo = name;
 
-      // Fetch the data
+      // Fetch the data.
       this.users.fetch();
       this.repos.fetch();
       this.commits.fetch();
@@ -89,32 +113,10 @@ function(app, Repo, User, Commit) {
       // Reset active model.
       app.active = false;
       this.commits.repo = false;
-    },
-
-    initialize: function() {
-      var collections = {
-        // Set up the users.
-        users: new User.Collection(),
-
-        // Set the repos.
-        repos: new Repo.Collection(),
-
-        // Set up the commits.
-        commits: new Commit.Collection()
-      };
-
-      // Ensure the router has references to the collections.
-      _.extend(this, collections);
-
-      // Use main layout and set Views.
-      app.useLayout().setViews({
-        ".users": new User.Views.List(collections),
-        ".repos": new Repo.Views.List(collections),
-        ".commits": new Commit.Views.List(collections)
-      }).render();
     }
   });
 
+  // Required, return the module for AMD compliance.
   return Router;
 
 });

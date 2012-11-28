@@ -1,0 +1,7 @@
+/*-- Bootstrap. -------------------------------------------------------------*/
+
+@import "../../vendor/bootstrap/css/bootstrap.css";
+
+/*-- Application stylesheets. -----------------------------------------------*/
+
+@import "style.css";

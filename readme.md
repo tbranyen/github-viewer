@@ -41,7 +41,6 @@ application can be tested locally and built for production with the same tool.
 
 Some custom tweaks needed to be added for this to work:
 
-* Added in an `assets/vendor` directory.
 * `production-fixes.css` file to map the Twitter Bootstrap images correctly.
 
 ### Backbone LayoutManager ###
@@ -86,15 +85,11 @@ server {
     try_files $uri /index.html;
   }
 
-  location /app {
+  location /vendor/js/libs {
     alias /github-viewer/dist/release/;
   }
 
-  location /assets/js/libs {
-    alias /github-viewer/dist/release/;
-  }
-
-  location /assets/css {
+  location /app/styles {
     alias /github-viewer/dist/release/;
   }
 }
