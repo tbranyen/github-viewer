@@ -6,9 +6,19 @@ require.config({
   deps: ["../vendor/jam/require.config", "main"],
 
   paths: {
+    // Use the underscore build of Lo-Dash to minimize incompatibilities.
+    "lodash": "../vendor/jam/lodash/lodash.underscore",
+
     // JavaScript folders.
     plugins: "../vendor/js/plugins",
     vendor: "../vendor"
+  },
+
+  map: {
+    // Ensure Lo-Dash is used instead of underscore.
+    "*": { "underscore": "lodash" }
+
+    // Put additional maps here.
   },
 
   shim: {
