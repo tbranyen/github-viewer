@@ -8,6 +8,8 @@ users from organizations.  Users can then be clicked to retrieve their
 repositories.  Finally, a repository can be clicked and recent commits
 displayed.
 
+![](https://raw.github.com/tbranyen/github-viewer/master/screenshot.png)
+
 ## Running locally ##
 
 To run locally you will need to install [Node.js](http://nodejs.org) and
