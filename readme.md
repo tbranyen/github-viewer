@@ -80,17 +80,9 @@ server {
   server_name githubviewer.org;
 
   location / {
-    root /github-viewer/;
+    root /github-viewer/dist/release;
 
     try_files $uri /index.html;
-  }
-
-  location /vendor/js/libs {
-    alias /github-viewer/dist/release/;
-  }
-
-  location /app/styles {
-    alias /github-viewer/dist/release/;
   }
 }
 ```
