@@ -1,18 +1,22 @@
-<div class="container-fluid well">
+<div class="container well well-large">
   <div class="row">
-    <form class="span3 adjust">
-      <strong class="label">Enter an organization name:</strong>
+    <form class="col-3">
+      <div class="input-group">
+        <input type="text" class="org form-control <%= users.status || "" %>"
+          name="org" value="<%= users.org || "bocoup" %>">
 
-      <div class="input-append">
-        <input type="text" class="org <%= collection.status || "" %>"
-        name="org" value="<%= collection.org || "matchbox" %>"><button
-          class="btn">Search</button>
+        <span class="input-group-btn">
+          <button class="btn btn-default">Search</button>
+        </span>
       </div>
     </form>
 
-    <div class="span9">
-      <strong class="label">Select a user:</strong>
-      <ul class="user-list clearfix unstyled"></ul>
+    <div class="col-lg-9">
+      <% if (users.isRequest) { %>
+        <img src="/app/img/spinner-gray.gif">
+      <% } else { %>
+        <div class="user-list clearfix list-inline"></div>
+      <% } %>
     </div>
   </div>
 </div>

@@ -1,21 +1,16 @@
-define([
-  // Application.
-  "app",
+define(function(require, exports, module) {
+  "use strict";
 
-  // Modules.
-  "modules/repo"
-],
+  var Backbone = require("backbone");
+  var app = require("app");
+  var Repo = require("modules/repo");
 
-function(app, Repo) {
-
-  var User = app.module();
+  var User = exports;
 
   User.Collection = Backbone.Collection.extend({
     url: function() {
       return "https://api.github.com/orgs/" + this.org + "/members?callback=?";
     },
-
-    cache: true,
 
     parse: function(obj) {
       // Safety check ensuring only valid data is used.
@@ -37,76 +32,67 @@ function(app, Repo) {
     }
   });
 
-  User.Views.Item = Backbone.View.extend({
-    template: "user/item",
+  User.Views = {
+    Item: Backbone.Layout.extend({
+      template: require("ldsh!user/item"),
 
-    tagName: "li",
+      tagName: "li",
 
-    data: function() {
-      return { model: this.model };
-    },
+      serialize: function() {
+        return { model: this.model };
+      },
 
-    events: {
-      click: "changeUser"
-    },
+      events: {
+        click: "changeUser"
+      },
 
-    changeUser: function(ev) {
-      var model = this.model;
-      var org = app.router.users.org;
-      var name = model.get("login");
+      changeUser: function(ev) {
+        var model = this.model;
+        var org = app.router.users.org;
+        var name = model.get("login");
 
-      app.router.go("org", org, "user", name);
-    },
+        app.router.go("org", org, "user", name);
+      },
 
-    initialize: function() {
-      this.model.on("change", this.render, this);
-    }
-  });
+      initialize: function() {
+        this.listenTo(this.model, "change", this.render);
+      }
+    }),
 
-  User.Views.List = Backbone.View.extend({
-    template: "user/list",
+    List: Backbone.Layout.extend({
+      template: require("ldsh!user/list"),
 
-    data: function() {
-      return { collection: this.options.users };
-    },
+      serialize: function() {
+        return { users: this.options.users };
+      },
 
-    cleanup: function() {
-      this.options.users.off(null, null, this);
-    },
+      beforeRender: function() {
+        this.options.users.each(function(user) {
+          this.insertView(".user-list", new User.Views.Item({
+            model: user
+          }));
+        }, this);
+      },
 
-    beforeRender: function() {
-      this.options.users.each(function(user) {
-        this.insertView("ul", new User.Views.Item({
-          model: user
-        }));
-      }, this);
-    },
+      afterRender: function() {
+        // Only re-focus if invalid.
+        this.$("input.invalid").focus();
+      },
 
-    afterRender: function() {
-      // Only re-focus if invalid.
-      this.$("input.invalid").focus();
-    },
+      initialize: function() {
+        // Whenever the collection resets, re-render.
+        this.listenTo(this.options.users, "reset sync request", this.render);
+      },
 
-    initialize: function() {
-      this.options.users.on("reset", this.render, this);
+      events: {
+        "submit form": "updateOrg"
+      },
 
-      this.options.users.on("fetch", function() {
-        this.$("ul").parent().html("<img src='/app/img/spinner-gray.gif'>");
-      }, this);
-    },
+      updateOrg: function(ev) {
+        app.router.go("org", this.$(".org").val());
 
-    events: {
-      "submit form": "updateOrg"
-    },
-
-    updateOrg: function(ev) {
-      app.router.go("org", this.$(".org").val());
-
-      return false;
-    }
-  });
-
-  // Required, return the module for AMD compliance.
-  return User;
-
+        return false;
+      }
+    })
+  };
 });

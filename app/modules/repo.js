@@ -1,35 +1,15 @@
-define([
-  // Application.
-  "app",
+define(function(require, exports, module) {
+  "use strict";
 
-  // Modules.
-  "modules/commit"
-],
+  var Backbone = require("backbone");
+  var app = require("app");
+  var Commit = require("modules/commit");
 
-function(app, Commit) {
-
-  var Repo = app.module();
+  var Repo = exports;
 
   Repo.Collection = Backbone.Collection.extend({
     url: function() {
-      return "https://api.github.com/users/" + this.user + "/repos?callback=?";
-    },
-
-    cache: true,
-
-    parse: function(obj) {
-      // Safety check ensuring only valid data is used.
-      if (obj.data.message !== "Not Found") {
-        return obj.data;
-      }
-
-      return this.models;
-    },
-
-    initialize: function(models, options) {
-      if (options) {
-        this.user = options.user;
-      }
+      return app.api + "users/" + this.user + "/repos?callback=?";
     },
 
     comparator: function(repo) {
@@ -37,81 +17,72 @@ function(app, Commit) {
     }
   });
 
-  Repo.Views.Item = Backbone.View.extend({
-    template: "repo/item",
+  Repo.Views = {
+    Item: Backbone.Layout.extend({
+      template: require("ldsh!repo/item"),
 
-    tagName: "li",
+      tagName: "li",
 
-    data: function() {
-      return { model: this.model };
-    },
+      serialize: function() {
+        return { model: this.model };
+      },
 
-    events: {
-      click: "showCommits"
-    },
-    
-    showCommits: function(ev) {
-      var model = this.model;
-      var org = app.router.users.org;
-      var user = app.router.repos.user;
+      events: {
+        click: "showCommits"
+      },
+      
+      showCommits: function(ev) {
+        var model = this.model;
+        var org = app.router.users.org;
+        var user = app.router.repos.user;
 
-      // Immediately reflect the active state.
-      app.active = this.model;
-      this.render();
+        // Add the active class.
+        this.makeActive();
 
-      // Easily create a URL.
-      app.router.go("org", org, "user", user, "repo", model.get("name"));
+        // Easily create a URL.
+        app.router.go("org", org, "user", user, "repo", model.get("name"));
 
-      return false;
-    },
+        return false;
+      },
 
-    beforeRender: function() {
-      if (app.active === this.model) {
+      makeActive: function() {
+        // Remove the active class from all other repo items.
         this.$el.siblings().removeClass("active");
+        // Add the active class here.
         this.$el.addClass("active");
-      }
-    }
-  });
+      },
 
-  Repo.Views.List = Backbone.View.extend({
-    template: "repo/list",
-
-    className: "repos-wrapper",
-
-    data: function() {
-      return {
-        count: this.options.repos.length 
-      };
-    },
-
-    beforeRender: function() {
-      var active = this.options.commits.repo;
-
-      this.options.repos.each(function(repo) {
-        if (repo.get("name") === active) {
-          app.active = repo;
+      beforeRender: function() {
+        if (this.options.active) {
+          this.makeActive();
         }
+      }
+    }),
+    
+    List: Backbone.Layout.extend({
+      template: require("ldsh!repo/list"),
 
-        this.insertView("ul", new Repo.Views.Item({
-          model: repo
-        }));
-      }, this);
-    },
+      className: "repos-wrapper",
 
-    cleanup: function() {
-      this.options.repos.off(null, null, this);
-    },
+      serialize: function() {
+        return { repos: this.options.repos };
+      },
 
-    initialize: function() {
-      this.options.repos.on("reset", this.render, this);
+      beforeRender: function() {
+        this.options.repos.each(function(repo) {
+          this.insertView("ul", new Repo.Views.Item({
+            model: repo,
 
-      this.options.repos.on("fetch", function() {
-        this.$("ul").parent().html("<img src='/app/img/spinner.gif'>");
-      }, this);
-    }
-  });
+            // Determine if this View is active.
+            active: repo.get("name") === this.options.commits.repo
+          }));
+        }, this);
+      },
 
-  // Required, return the module for AMD compliance.
-  return Repo;
-
+      initialize: function() {
+        // Whenever the collection resets, re-render.
+        this.listenTo(this.options.repos, "sync request reset", this.render);
+      }
+    })
+  };
 });

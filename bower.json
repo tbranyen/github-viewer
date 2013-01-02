@@ -1,0 +1,18 @@
+{
+  "name": "github-viewer",
+
+  "dependencies": {
+    "html5-boilerplate": "~4.3.0",
+    "almond": "~0.2.6",
+    "lodash": "~2.2.0",
+    "lodash-template-loader": "master",
+    "backbone": "~1.0.0",
+    "jquery": "~2.0.3",
+    "requirejs": "~2.1.8",
+    "layoutmanager": "~0.9.3",
+    "mocha": "~1.13.0",
+    "chai": "~1.8.0",
+    "bootstrap": "~3.0.0",
+    "backbone.cacheit": "0.1.0-pre"
+  }
+}

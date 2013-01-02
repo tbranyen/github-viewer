@@ -1,92 +1,54 @@
-define([
-  // Application.
-  "app"
-],
+define(function(require, exports, module) {
+  "use strict";
 
-function(app) {
+  var Backbone = require("backbone");
+  var app = require("app");
 
-  var Commit = app.module();
-
-  Commit.Model = Backbone.Model.extend({
-    defaults: function() {
-      return {
-        commit: {}
-      };
-    }
-  });
+  var Commit = exports;
 
   Commit.Collection = Backbone.Collection.extend({
-    model: Commit.Model,
-
-    cache: true,
-
     url: function() {
       return "https://api.github.com/repos/" + this.user + "/" + this.repo +
         "/commits?callback=?";
-    },
+    }
+  });
 
-    parse: function(obj) {
-      // Safety check ensuring only valid data is used.
-      if (obj.data.message !== "Not Found") {
-        return obj.data;
+  Commit.Views = {
+    Item: Backbone.Layout.extend({
+      template: require("ldsh!commit/item"),
+
+      // Use the <TR> from the template.
+      el: false,
+
+      serialize: function() {
+        return {
+          model: this.model,
+          repo: this.options.repo,
+          user: this.options.user
+        };
       }
+    }),
 
-      return this.models;
-    },
+    List: Backbone.Layout.extend({
+      template: require("ldsh!commit/list"),
 
-    initialize: function(models, options) {
-      if (options) {
-        this.user = options.user;
-        this.repo = options.repo;
+      beforeRender: function() {
+        this.options.commits.each(function(commit) {
+          this.insertView("table", new Commit.Views.Item({
+            model: commit,
+            repo: this.options.commits.repo,
+            user: this.options.commits.user
+          }));
+        }, this);
+      },
+
+      serialize: function() {
+        return { commits: this.options.commits };
+      },
+
+      initialize: function() {
+        this.listenTo(this.options.commits, "reset sync request", this.render);
       }
-    }
-  });
-
-  Commit.Views.Item = Backbone.View.extend({
-    template: "commit/item",
-
-    tagName: "tr",
-
-    data: function() {
-      return {
-        model: this.model,
-        repo: this.options.repo,
-        user: this.options.user
-      };
-    }
-  });
-
-  Commit.Views.List = Backbone.View.extend({
-    tagName: "table",
-
-    className: "table table-striped",
-
-    beforeRender: function() {
-      this.$el.children().remove();
-
-      this.options.commits.each(function(commit) {
-        this.insertView(new Commit.Views.Item({
-          model: commit,
-          repo: this.options.commits.repo,
-          user: this.options.commits.user
-        }));
-      }, this);
-    },
-
-    cleanup: function() {
-      this.options.commits.off(null, null, this);
-    },
-
-    initialize: function() {
-      this.options.commits.on("reset", this.render, this);
-
-      this.options.commits.on("fetch", function() {
-        this.$el.html("<img src='/app/img/spinner.gif'>");
-      }, this);
-    }
-  });
-
-  // Required, return the module for AMD compliance.
-  return Commit;
-
+    })
+  };
 });

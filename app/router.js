@@ -1,14 +1,14 @@
-define([
-  // Application.
-  "app",
+define(function(require, exports, module) {
+  "use strict";
 
-  // Modules.
-  "modules/repo",
-  "modules/user",
-  "modules/commit"
-],
+  var app = require("app");
 
-function(app, Repo, User, Commit) {
+  var Commit = require("modules/commit");
+  var User = require("modules/user");
+  var Repo = require("modules/repo");
+
+  require("cacheit");
+  require("bootstrap");
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
@@ -29,11 +29,17 @@ function(app, Repo, User, Commit) {
       _.extend(this, collections);
 
       // Use main layout and set Views.
-      app.useLayout("main-layout").setViews({
-        ".users": new User.Views.List(collections),
-        ".repos": new Repo.Views.List(collections),
-        ".commits": new Commit.Views.List(collections)
-      }).render();
+      this.layout = new Backbone.Layout({
+        el: "main",
+
+        template: require("ldsh!main"),
+
+        views: {
+          ".users": new User.Views.List(collections),
+          ".repos": new Repo.Views.List(collections),
+          ".commits": new Commit.Views.List(collections)
+        }
+      }).render().view;
     },
 
     routes: {
@@ -116,7 +122,5 @@ function(app, Repo, User, Commit) {
     }
   });
 
-  // Required, return the module for AMD compliance.
-  return Router;
-
+  module.exports = Router;
 });

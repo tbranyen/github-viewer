@@ -1,7 +1,9 @@
-<% if (!model.get("commit").message) { %>
-<td><strong><%= model.get("message") %></strong></td>
-<td></td>
-<% } else { %>
-<td><a href="https://github.com/<%= user %>/<%= repo %>/commit/<%= model.get("sha") %>" target="_blank"><%= model.get("sha") %></a></td>
-<td><strong><%= model.get("commit").message %></strong></td>
-<% } %>
+<tr>
+  <% if (!model.get("commit").message) { %>
+  <td><strong><%= model.get("message") %></strong></td>
+  <td></td>
+  <% } else { %>
+  <td><a href="https://github.com/<%= user %>/<%= repo %>/commit/<%= model.get("sha") %>" target="_blank"><%= model.get("sha") %></a></td>
+  <td><strong><%= model.get("commit").message %></strong></td>
+  <% } %>
+</tr>
