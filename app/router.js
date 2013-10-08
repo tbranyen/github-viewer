@@ -3,11 +3,11 @@ define(function(require, exports, module) {
 
   var app = require("app");
 
-  var Commit = require("modules/commit");
-  var User = require("modules/user");
-  var Repo = require("modules/repo");
+  var Commit = require("components/commit/index");
+  var User = require("components/user/index");
+  var Repo = require("components/repo/index");
 
-  require("cacheit");
+  require("collectionCache");
   require("bootstrap");
 
   // Defining the application router, you can attach sub routers here.
@@ -32,7 +32,7 @@ define(function(require, exports, module) {
       this.layout = new Backbone.Layout({
         el: "main",
 
-        template: require("ldsh!main"),
+        template: require("ldsh!./templates/main"),
 
         views: {
           ".users": new User.Views.List(collections),
