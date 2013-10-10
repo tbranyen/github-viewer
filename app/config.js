@@ -20,7 +20,7 @@ require.config({
     "backbone": "../vendor/bower/backbone/backbone",
     "bootstrap": "../vendor/bower/bootstrap/dist/js/bootstrap",
     "layoutmanager": "../vendor/bower/layoutmanager/backbone.layoutmanager",
-    "collectionCache": "../vendor/backbone.collectionCache"
+    "collectionCache": "../vendor/backbone.collectioncache"
   },
 
   shim: {

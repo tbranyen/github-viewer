@@ -18,6 +18,8 @@ define(function(require, exports, module) {
 
   // Useful defaults for GitHub Viewer.
   _.extend(Backbone.Collection.prototype, {
+    cache: true,
+
     initialize: function(models, options) {
       // Automatically extend in passed options.
       _.extend(this, options);

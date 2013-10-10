@@ -9,9 +9,9 @@
     "backbone": "~1.0.0",
     "jquery": "~2.0.3",
     "requirejs": "~2.1.8",
-    "layoutmanager": "~0.9.3",
+    "layoutmanager": "~0.9.2",
     "mocha": "~1.13.0",
     "chai": "~1.8.0",
-    "bootstrap": "~3.0.0"
+    "bootstrap": "twbs/bootstrap#3.0.0-rc1"
   }
 }
