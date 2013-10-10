@@ -221,5 +221,6 @@ module.exports = function(grunt) {
     "requirejs",
     "styles",
     "cssmin",
+    //"compress",
   ]);
 };
