@@ -1,90 +1,51 @@
-define([
-  // Plugins.
-  "backbone.layoutmanager",
-  "plugins/backbone.collectioncache",
-  "vendor/bootstrap/js/bootstrap"
-],
+define(function(require, exports, module) {
+  "use strict";
 
-function() {
+  // External dependencies.
+  var _ = require("underscore");
+  var $ = require("jquery");
+  var Backbone = require("backbone");
+  var Layout = require("layoutmanager");
 
-  // Patch collection fetching to emit a `fetch` event.
-  Backbone.Collection.prototype.fetch = function() {
-    var fetch = Backbone.Collection.prototype.fetch;
+  // Alias the module for easier identification.
+  var app = module.exports;
 
-    return function() {
-      this.trigger("fetch");
+  // The root path to run the application through.
+  app.root = "/";
 
-      return fetch.apply(this, arguments);
-    };
-  }();
+  // API endpoint.
+  app.api = "https://api.github.com/";
 
-  // Provide a global location to place configuration settings and module
-  // creation.
-  var app = {
-    // The root path to run the application through.
-    root: "/"
-  };
+  // Useful defaults for GitHub Viewer.
+  _.extend(Backbone.Collection.prototype, {
+    cache: true,
 
-  // Localize or create a new JavaScript Template object.
-  var JST = window.JST = window.JST || {};
+    initialize: function(models, options) {
+      // Automatically extend in passed options.
+      _.extend(this, options);
 
-  // Configure LayoutManager with Backbone Boilerplate defaults.
-  Backbone.LayoutManager.configure({
-    // Allow LayoutManager to augment Backbone.View.prototype.
-    manage: true,
+      // Listen for request and sync events to control the `isRequest` flag.
+      this.on({
+        request: function() {
+          this.isRequest = true;
+        },
 
-    prefix: "app/templates/",
-
-    fetch: function(path) {
-      // Concatenate the file extension.
-      path = path + ".html";
-
-      // If cached, use the compiled template.
-      if (JST[path]) {
-        return JST[path];
-      }
-
-      // Put fetch into `async-mode`.
-      var done = this.async();
-
-      // Seek out the template asynchronously.
-      $.get(app.root + path, function(contents) {
-        done(JST[path] = _.template(contents));
+        sync: function() {
+          this.isRequest = false;
+        }
       });
-    }
-  });
 
-  // Mix Backbone.Events, modules, and layout management into the app object.
-  return _.extend(app, {
-    // Create a custom object with a nested Views object.
-    module: function(additionalProps) {
-      return _.extend({ Views: {} }, additionalProps);
+      // By default the collection is not in a request.
+      this.isRequest = false;
     },
 
-    // Helper for using layouts.
-    useLayout: function(name, options) {
-      // Enable variable arity by allowing the first argument to be the options
-      // object and omitting the name argument.
-      if (_.isObject(name)) {
-        options = name;
+    parse: function(obj) {
+      // Safety check ensuring only valid data is used.
+      if (obj.data.message !== "Not Found") {
+        return obj.data;
       }
 
-      // Ensure options is an object.
-      options = options || {};
-
-      // If a name property was specified use that as the template.
-      if (_.isString(name)) {
-        options.template = name;
-      }
-
-      // Create a new Layout with options.
-      var layout = new Backbone.Layout(_.extend({
-        el: "#main"
-      }, options));
-
-      // Cache the refererence.
-      return this.layout = layout;
+      return this.models;
     }
-  }, Backbone.Events);
-
+  });
 });

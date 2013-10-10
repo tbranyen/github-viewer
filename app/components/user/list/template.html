@@ -1,0 +1,22 @@
+<div class="container well well-large">
+  <div class="row">
+    <form class="col-3">
+      <div class="input-group">
+        <input type="text" class="org form-control <%= users.status || "" %>"
+          name="org" value="<%= users.org || "bocoup" %>">
+
+        <span class="input-group-btn">
+          <button class="btn btn-default">Search</button>
+        </span>
+      </div>
+    </form>
+
+    <div class="col-lg-9">
+      <% if (users.isRequest) { %>
+        <img src="/app/img/spinner-gray.gif">
+      <% } else { %>
+        <div class="user-list clearfix list-inline"></div>
+      <% } %>
+    </div>
+  </div>
+</div>
