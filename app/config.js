@@ -39,9 +39,5 @@ require.config({
 
     // Twitter Bootstrap depends on jQuery.
     "bootstrap": ["jquery"]
-  },
-
-  lodashLoader: {
-    root: ""
   }
 });

@@ -10,23 +10,23 @@ define(function(require, exports, module) {
     className: "repos-wrapper",
 
     serialize: function() {
-      return { repos: this.options.repos };
+      return { repos: this.collection };
     },
 
     beforeRender: function() {
-      this.options.repos.each(function(repo) {
+      this.collection.each(function(repo) {
         this.insertView("ul", new Item({
           model: repo,
 
           // Determine if this View is active.
-          active: repo.get("name") === this.options.commits.repo
+          active: repo.get("name") === app.router.commits.repo
         }));
       }, this);
     },
 
     initialize: function() {
       // Whenever the collection resets, re-render.
-      this.listenTo(this.options.repos, "sync request reset", this.render);
+      this.listenTo(this.collection, "sync request reset", this.render);
     }
   });
 

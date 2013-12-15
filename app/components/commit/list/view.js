@@ -8,21 +8,21 @@ define(function(require, exports, module) {
     template: require("ldsh!./template"),
 
     beforeRender: function() {
-      this.options.commits.each(function(commit) {
+      this.collection.each(function(commit) {
         this.insertView("table", new Item({
           model: commit,
-          repo: this.options.commits.repo,
-          user: this.options.commits.user
+          repo: this.collection.repo,
+          user: this.collection.user
         }));
       }, this);
     },
 
     serialize: function() {
-      return { commits: this.options.commits };
+      return { commits: this.collection };
     },
 
     initialize: function() {
-      this.listenTo(this.options.commits, "reset sync request", this.render);
+      this.listenTo(this.collection, "reset sync request", this.render);
     }
   });
 

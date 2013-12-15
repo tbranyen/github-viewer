@@ -8,11 +8,11 @@ define(function(require, exports, module) {
     template: require("ldsh!./template"),
 
     serialize: function() {
-      return { users: this.options.users };
+      return { users: this.collection };
     },
 
     beforeRender: function() {
-      this.options.users.each(function(user) {
+      this.collection.each(function(user) {
         this.insertView(".user-list", new Item({
           model: user
         }));
@@ -26,7 +26,7 @@ define(function(require, exports, module) {
 
     initialize: function() {
       // Whenever the collection resets, re-render.
-      this.listenTo(this.options.users, "reset sync request", this.render);
+      this.listenTo(this.collection, "reset sync request", this.render);
     },
 
     events: {

@@ -22,7 +22,7 @@ git clone git://github.com/tbranyen/github-viewer.git
 cd github-viewer
 
 # Install the Node dependencies and Bower dependencies.
-npm i -q
+npm install -q
 
 # Run the server
 grunt server

@@ -13,33 +13,28 @@ define(function(require, exports, module) {
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
     initialize: function() {
-      // TODO Clean this up...
-      var collections = {
-        // Set up the users.
-        users: new User.Collection(),
-
-        // Set the repos.
-        repos: new Repo.Collection(),
-
-        // Set up the commits.
-        commits: new Commit.Collection()
-      };
-
-      // Ensure the router has references to the collections.
-      _.extend(this, collections);
+      // Set up the users.
+      this.users = new User.Collection();
+      // Set the repos.
+      this.repos = new Repo.Collection();
+      // Set up the commits.
+      this.commits = new Commit.Collection();
 
       // Use main layout and set Views.
-      this.layout = new Backbone.Layout({
+      var Layout = Backbone.Layout.extend({
         el: "main",
 
         template: require("ldsh!./templates/main"),
 
         views: {
-          ".users": new User.Views.List(collections),
-          ".repos": new Repo.Views.List(collections),
-          ".commits": new Commit.Views.List(collections)
+          ".users": new User.Views.List({ collection: this.users }),
+          ".repos": new Repo.Views.List({ collection: this.repos }),
+          ".commits": new Commit.Views.List({ collection: this.commits })
         }
-      }).render().view;
+      });
+      
+      // Render to the page.
+      new Layout().render();
     },
 
     routes: {

@@ -1,12 +1,11 @@
 define(function(require, exports, module) {
   "use strict";
 
-  var app = require("app");
+  var Layout = require("layoutmanager");
 
-  var Layout = Backbone.Layout.extend({
+  var CommitItemView = Layout.extend({
     template: require("ldsh!./template"),
 
-    // Use the <TR> from the template.
     el: false,
 
     serialize: function() {
@@ -18,5 +17,5 @@ define(function(require, exports, module) {
     }
   });
 
-  module.exports = Layout;
+  module.exports = CommitItemView;
 });
