@@ -1,5 +1,5 @@
 <tr>
-  <% if (!model.get("commit").message) { %>
+  <% if (!model.has("commit")) { %>
   <td><strong><%= model.get("message") %></strong></td>
   <td></td>
   <% } else { %>

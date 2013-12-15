@@ -1,16 +1,21 @@
-<div class="navbar navbar-inverse navbar-static-top">
+<div class="navbar navbar-default navbar-static-top" role="navigation">
   <div class="container">
-    <a class="navbar-brand" href="#"> GitHub Viewer</a>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
 
-    <span class="navbar-text pull-left">
-      Backbone Boilerplate Example Application
-    </span>
+      <a class="navbar-brand" href="#">GitHub Viewer</a>
+    </div>
 
-    <span class="navbar-text pull-right">
-      <a class="navbar-link" href="https://github.com/tbranyen/github-viewer">
-        GitHub Source
-      </a>
-    </span>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://github.com/tbranyen/github-viewer">GitHub Source</a></li>
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -18,15 +23,14 @@
   <div class="row users"></div>
 
   <div class="row content">
-    <div class="col-3 repos"></div>
-    <div class="col-9 commits"></div>
+    <div class="col-sm-3 repos"></div>
+    <div class="col-sm-9 commits"></div>
   </div>
-
-  <hr>
-
 </div>
 
 <footer class="container">
+  <hr>
+
   <a href="http://twitter.com/tbranyen" target="_blank">
     @tbranyen
   </a> | MIT License
