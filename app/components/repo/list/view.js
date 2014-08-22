@@ -5,7 +5,7 @@ define(function(require, exports, module) {
   var Item = require("../item/view");
 
   var Layout = Backbone.Layout.extend({
-    template: require("ldsh!./template"),
+    template: require("template!./template"),
 
     className: "repos-wrapper",
 

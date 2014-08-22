@@ -12,7 +12,7 @@ Finally, a repository can be clicked and recent commits displayed.
 ## Running locally ##
 
 To run locally you will need to install [Node.js](http://nodejs.org) and
-[grunt](http://github.com/gruntjs/grunt).
+[Grunt](http://gruntjs.com).
 
 ``` bash
 # Clone the repository.
@@ -22,7 +22,7 @@ git clone git://github.com/tbranyen/github-viewer.git
 cd github-viewer
 
 # Install the Node dependencies and Bower dependencies.
-npm install -q
+npm install
 
 # Run the server
 grunt server

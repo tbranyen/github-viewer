@@ -7,9 +7,6 @@ define(function(require, exports, module) {
   var User = require("components/user/index");
   var Repo = require("components/repo/index");
 
-  require("collectionCache");
-  require("bootstrap");
-
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
     initialize: function() {
@@ -24,7 +21,7 @@ define(function(require, exports, module) {
       var Layout = Backbone.Layout.extend({
         el: "main",
 
-        template: require("ldsh!./templates/main"),
+        template: require("template!./templates/main"),
 
         views: {
           ".users": new User.Views.List({ collection: this.users }),

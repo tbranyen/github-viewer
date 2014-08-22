@@ -1,12 +1,12 @@
-<% if (repos.isRequest) { %>
+{% if repos.isRequest %}
   <img src="/app/img/spinner.gif">
-<% } else { %>
-  <% if (repos.length) { %>
+{% else %}
+  {% if repos.length %}
   <h4>Repos (<%= repos.length %>)</h4>
   <hr>
-  <% } else { %>
+  {% else %}
   <h4>No repos found.</h4>
-  <% } %>
+  {% endif %}
 
   <ul class="nav nav-pills nav-stacked"></ul>
-<% } %>
+{% endif %}

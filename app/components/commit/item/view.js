@@ -4,7 +4,7 @@ define(function(require, exports, module) {
   var Layout = require("layoutmanager");
 
   var CommitItemView = Layout.extend({
-    template: require("ldsh!./template"),
+    template: require("template!./template"),
 
     el: false,
 
