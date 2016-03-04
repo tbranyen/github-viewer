@@ -1,8 +1,6 @@
 GitHub Viewer
 =============
 
-[http://www.githubviewer.org/](http://www.githubviewer.org/)
-
 An example application that connects to the GitHub REST API and displays users
 from organizations.  Users can then be clicked to retrieve their repositories.
 Finally, a repository can be clicked and recent commits displayed.
