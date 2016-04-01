@@ -1,7 +1,7 @@
 <form>
   <div class="input-group">
-    <input type="text" class="org form-control <%= users.status || "" %>"
-      name="org" value="<%= users.org || "bocoup" %>">
+    <input type="text" class="org form-control {{ users.status }}"
+      name="org" value="{{ users.org }}">
 
     <span class="input-group-btn">
       <button class="btn btn-default">Search</button>
@@ -12,9 +12,9 @@
 <hr>
 
 <div>
-  <% if (users.isRequest) { %>
+  {% if users.isRequest %}
     <img src="/app/img/spinner-gray.gif">
-  <% } else { %>
+  {% else %}
     <ul class="user-list clearfix list-inline"></ul>
-  <% } %>
+  {% endif %}
 </div>

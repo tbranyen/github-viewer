@@ -1,6 +1,6 @@
-/*-- Bootstrap. -------------------------------------------------------------*/
+/*-- Pure. ------------------------------------------------------------------*/
 
-@import "../../vendor/bower/bootstrap/dist/css/bootstrap.css";
+@import "../../bower_components/pure/pure.css";
 
 /*-- Application stylesheets. -----------------------------------------------*/
 

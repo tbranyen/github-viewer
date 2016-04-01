@@ -3,21 +3,21 @@ define(function(require) {
 
   describe("Simple tests examples", function() {
     it("should detect true", function() {
-      expect(true).to.be.true;
+      assert.toEqual(true, true);
     });
 
     it("should increments values", function() {
       var mike = 0;
 
-      expect(mike++ === 0).to.be.true;
-      expect(mike === 1).to.be.true;
+      assert.toEqual(mike++, 0);
+      assert.toEqual(mike, 1);
     });
 
     it("should increments values (improved)", function() {
       var mike = 0;
 
-      expect(mike++).to.equal(0);
-      expect(mike).to.equal(1);
+      assert.toEqual(mike++, 0);
+      assert.toEqual(mike, 1);
     });
   });
 

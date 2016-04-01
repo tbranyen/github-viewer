@@ -7,27 +7,17 @@
   // tests.
   karma.loaded = function() {};
 
-  if (window.QUnit) {
-    // Disable auto start.  We'll call start once the async modules have
-    // loaded.
-    window.QUnit.config.autostart = false;
-  } else if (window.chai) {
-    // Optionally use chai with Mocha.
-    window.expect = window.chai.expect;
-  }
-
   // Set the application endpoint and load the configuration.
   require.config({
     paths: {
-      underscore: "../vendor/bower/lodash/dist/lodash.underscore"
+      combyne: "../bower_components/combyne/dist/combyne"
     },
 
     baseUrl: "base/app"
   });
 
   require([
-    "config",
-    "underscore"
+    "config"
   ],
 
   function(config, _) {

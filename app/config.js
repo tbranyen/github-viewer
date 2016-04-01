@@ -1,43 +1,11 @@
 require.config({
   paths: {
-    // Make vendor easier to access.
-    "vendor": "../vendor",
-
-    // Almond is used to lighten the output filesize.
-    "almond": "../vendor/bower/almond/almond",
-
-    // Opt for Lo-Dash Underscore compatibility build over Underscore.
-    "underscore": "../vendor/bower/lodash/dist/lodash.underscore",
-
-    // Map `lodash` to a valid location for the template loader plugin.
-    "lodash": "../vendor/bower/lodash/dist/lodash",
-
-    // Use the Lo-Dash template loader.
-    "ldsh": "../vendor/bower/lodash-template-loader/loader",
-
-    // Map remaining vendor dependencies.
-    "jquery": "../vendor/bower/jquery/jquery",
-    "backbone": "../vendor/bower/backbone/backbone",
-    "bootstrap": "../vendor/bower/bootstrap/dist/js/bootstrap",
-    "layoutmanager": "../vendor/bower/layoutmanager/backbone.layoutmanager",
-    "collectionCache": "../vendor/backbone.collectioncache"
-  },
-
-  shim: {
-    // This is required to ensure Backbone works as expected within the AMD
-    // environment.
-    "backbone": {
-      // These are the two hard dependencies that will be loaded first.
-      deps: ["jquery", "underscore"],
-
-      // This maps the global `Backbone` object to `require("backbone")`.
-      exports: "Backbone"
-    },
-
-    // Backbone.CollectionCache depends on Backbone.
-    "collectionCache": ["backbone"],
-
-    // Twitter Bootstrap depends on jQuery.
-    "bootstrap": ["jquery"]
+    "backbone": "../bower_components/backbone/backbone",
+    "jquery": "../bower_components/jquery/dist/jquery",
+    "underscore": "../bower_components/lodash/dist/lodash.underscore",
+    "lodash": "../bower_components/lodash/dist/lodash",
+    "combyne": "../bower_components/combyne/dist/combyne",
+    "template": "../bower_components/combyne-amd-loader/loader",
+    "layoutmanager": "../bower_components/layoutmanager/backbone.layoutmanager"
   }
 });

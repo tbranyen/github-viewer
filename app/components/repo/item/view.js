@@ -4,7 +4,7 @@ define(function(require, exports, module) {
   var app = require("app");
 
   var Layout = Backbone.Layout.extend({
-    template: require("ldsh!./template"),
+    template: require("template!./template"),
 
     tagName: "li",
 
